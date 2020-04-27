@@ -1,6 +1,14 @@
-.form-group {
-margin-top: 100px;
+.body-content {
+    margin-top: 70px;
 }
 
-#registerForm{
-margin-top: 100px}
+#logo {
+ margin-top: -8px;
+ width: 40px;
+ height: 40px;
+ }
+
+ #registerForm {
+ margin-top: 70px;
+ }
+
