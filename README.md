@@ -1,0 +1,1 @@
+The grocery list tracker allows users to create a baseline grocery list that is caterered towards their particular household. It will have items that are bought on a regular basis. Timestamps of the last time an item is bought will allow them to on the fly figure out if they might be running low on supplies if not at home to physically check.
