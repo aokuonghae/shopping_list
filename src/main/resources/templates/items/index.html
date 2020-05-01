@@ -11,11 +11,14 @@
     <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Type</th>
     </tr>
     </thead>
     <tr th:each="item : ${items}">
         <td th:text="${item.id}"></td>
         <td th:text="${item.name}"></td>
+        <td th:text="${item.itemType.displayName}"></td>
+
 
     </tr>
 </table>

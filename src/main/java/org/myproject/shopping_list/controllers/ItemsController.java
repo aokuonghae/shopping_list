@@ -1,6 +1,7 @@
 package org.myproject.shopping_list.controllers;
 
 import org.myproject.shopping_list.models.Item;
+import org.myproject.shopping_list.models.ItemType;
 import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class ItemsController {
     public String displayCreateItemForm(Model model){
         model.addAttribute("title", "Create Item");
         model.addAttribute(new Item());
+        model.addAttribute("types", ItemType.values());
         return "items/create";
     }
 
