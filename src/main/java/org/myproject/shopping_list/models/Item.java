@@ -1,19 +1,20 @@
 package org.myproject.shopping_list.models;
 
-import jdk.jfr.Enabled;
-import jdk.jfr.Event;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Set;
 
 @Entity
 public class Item extends AbstractEntity{
 
-    @NotBlank (message="Enter an item")
-    private String name;
-
     private ItemType itemType;
+
+    @ManyToMany(mappedBy="items")
+    private List<GroceryList> groceryLists= new ArrayList<>();
+
+    public Item(){}
 
     public ItemType getItemType() {
         return itemType;
@@ -23,22 +24,8 @@ public class Item extends AbstractEntity{
         this.itemType = itemType;
     }
 
-    public Item(String name){
-        this.name=name;
+    public List<GroceryList> getGroceryLists() {
+        return groceryLists;
     }
 
-    public Item(){}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }

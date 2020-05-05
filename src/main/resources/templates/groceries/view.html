@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+
+<header th:replace="fragments :: page-header"></header>
+
+<div class="container body-content">
+    <h1 th:text="${list.name}"></h1>
+        <ul>
+            <li th:each="item : ${list.items}">
+                <p th:text="${item.name}"></p>
+            </li>
+        </ul>
+</div>
+
+</body>
+</html>

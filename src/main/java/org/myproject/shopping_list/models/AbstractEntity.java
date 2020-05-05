@@ -3,10 +3,14 @@ package org.myproject.shopping_list.models;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @MappedSuperclass
 public abstract class AbstractEntity {
+
+    @NotBlank(message="Enter a name")
+    private String name;
 
     @Id
     @GeneratedValue
@@ -14,6 +18,19 @@ public abstract class AbstractEntity {
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     @Override

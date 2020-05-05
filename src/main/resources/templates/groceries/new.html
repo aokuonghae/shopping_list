@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+
+<div class="container body-content">
+<header th:replace="fragments :: page-header"></header>
+<h1>Create New Grocery List</h1>
+    <form method="post" style="max-width:600px;">
+    <div class="form-group">
+        <label th:for="name">Name</label>
+        <input class="form-control" th:field="${groceryList.name}" />
+        <span th:errors="${groceryList.name}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label th:for="item">Items</label>
+        <li th:each="item : ${items}">
+            <input type="checkbox" name="items" th:value="${item.id}">
+            <label th:text="${item.name}"></label>
+        </li>
+        <a th:href="@{/items/create}">Create Item</a>
+    </div>
+
+    <input type="submit" value="Create New Grocery List" />
+</form>
+</div>
+
+</body>
+</html>

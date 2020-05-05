@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+
+<header th:replace="fragments :: page-header"></header>
+
+<div class="container body-content">
+    <h2>My Grocery List </h2>
+ <ul>
+     <li th:each="groceryList: ${lists}">
+         <a th:href="@{'/groceries/view/'+ ${groceryList.id}}" th:text="${groceryList.name}"></a>
+     </li>
+ </ul>
+
+</div>
+
+</body>
+</html>
