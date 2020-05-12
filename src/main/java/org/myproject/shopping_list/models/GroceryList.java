@@ -11,6 +11,8 @@ public class GroceryList extends AbstractEntity {
     @ManyToMany
     private List<Item> items;
 
+    private String getDate=LastBought.getLastBought();
+
     public GroceryList(){}
 
     public GroceryList(List<Item> items) {

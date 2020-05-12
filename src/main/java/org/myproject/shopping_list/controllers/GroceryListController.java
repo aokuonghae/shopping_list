@@ -2,6 +2,7 @@ package org.myproject.shopping_list.controllers;
 
 import org.myproject.shopping_list.models.GroceryList;
 import org.myproject.shopping_list.models.Item;
+import org.myproject.shopping_list.models.LastBought;
 import org.myproject.shopping_list.models.data.GroceryListRepository;
 import org.myproject.shopping_list.models.data.ItemRepository;
 import org.myproject.shopping_list.models.dto.GroceryListItemDTO;
@@ -12,7 +13,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Controller
@@ -47,9 +51,6 @@ public class GroceryListController {
         }
         List<Item> itemList= (List<Item>)itemRepository.findAllById(items);
 
-//        GroceryListItemDTO groceryListItemDTO= new GroceryListItemDTO();
-//        groceryListItemDTO.setItems((Item) itemList);
-//        model.addAttribute(new GroceryListItemDTO());
 
         newGroceryList.setItems(itemList);
         groceryListRepository.save(newGroceryList);
@@ -63,6 +64,27 @@ public class GroceryListController {
             GroceryList list= (GroceryList) optGroceryList.get();
             model.addAttribute("list", list);
             return "groceries/view";
+        } else {
+            return "redirect:";
+        }
+    }
+
+    @GetMapping("shopping/{groceryListId}")
+    public String displayMyShoppingList(Model model, @PathVariable int groceryListId,
+                                        LastBought dateContainer){
+        Optional optGroceryList= groceryListRepository.findById(groceryListId);
+
+        dateContainer.setDateTime(LocalDateTime.now());
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
+
+        String lastBought = formatter1.format(dateContainer.getDateTime());
+
+        model.addAttribute("date", lastBought);
+
+        if (optGroceryList.isPresent()){
+            GroceryList list= (GroceryList) optGroceryList.get();
+            model.addAttribute("list", list);
+            return "groceries/shopping";
         } else {
             return "redirect:";
         }

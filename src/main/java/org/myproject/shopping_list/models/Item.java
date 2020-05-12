@@ -2,6 +2,7 @@ package org.myproject.shopping_list.models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ public class Item extends AbstractEntity{
 
     @ManyToMany(mappedBy="items")
     private List<GroceryList> groceryLists= new ArrayList<>();
+
+    private String lastBought;
 
     public Item(){}
 
@@ -28,4 +31,11 @@ public class Item extends AbstractEntity{
         return groceryLists;
     }
 
+    public String getLastBought() {
+        return lastBought;
+    }
+
+    public void setLastBought(String lastBought) {
+        this.lastBought = lastBought;
+    }
 }
