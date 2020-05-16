@@ -5,15 +5,15 @@
 
 <header th:replace="fragments :: page-header"></header>
 
-<h3> Add Item</h3>
+<h3> Edit Item</h3>
 <div class="card">
     <div class="card-body">
         <div class="col-md-10">
-            <form action="#" th:action="@{create}" th:object="${item}" method="post">
+            <form action=""  th:action="@{/items/edit/{id}(id=${item.id})}" th:object="${item}" method="post">
                 <div class="row">
                     <div class="form-group col-md-8">
-                        <label for="name" class="col-form-label">Last Name</label>
-                        <input type="text" th:field="*{name}" class="form-control"
+                        <label for="name" class="col-form-label">Item Name</label>
+                        <input type="text" th:field="${item.name}" class="form-control"
                                id="name" placeholder="Item Name" />
                     </div>
                     <div class="form-group col-md-8">

@@ -2,7 +2,6 @@ package org.myproject.shopping_list.models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,4 +37,5 @@ public class Item extends AbstractEntity{
     public void setLastBought(String lastBought) {
         this.lastBought = lastBought;
     }
+
 }

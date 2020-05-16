@@ -51,7 +51,6 @@ public class GroceryListController {
         }
         List<Item> itemList= (List<Item>)itemRepository.findAllById(items);
 
-
         newGroceryList.setItems(itemList);
         groceryListRepository.save(newGroceryList);
         return "redirect:";
@@ -89,4 +88,25 @@ public class GroceryListController {
             return "redirect:";
         }
     }
+
+//    @PutMapping("shopping/{groceryListId}")
+//    public String updateItemLastBought(Model model, @RequestParam(value="bought") List<Integer> itemIds,
+//                                      LastBought dateContainer){
+//        List<Item> itemList= (List<Item>)itemRepository.findAllById(itemIds);
+//
+//        dateContainer.setDateTime(LocalDateTime.now());
+//        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
+//
+//        String lastBought = formatter1.format(dateContainer.getDateTime());
+//
+//
+//        if (itemIds != null) {
+//            for (int id : itemIds) {
+//                groceryItem.updateItem(id,lastBought);
+//            }
+//        }
+//
+//        return "redirect:..";
+//
+//    }
 }

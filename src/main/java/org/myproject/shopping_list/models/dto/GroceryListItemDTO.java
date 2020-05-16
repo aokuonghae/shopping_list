@@ -6,10 +6,9 @@ import org.myproject.shopping_list.models.Item;
 import javax.validation.constraints.NotNull;
 
 public class GroceryListItemDTO {
-    @NotNull
+
     private GroceryList listName;
 
-    @NotNull
     private Item items;
 
     public GroceryListItemDTO(){}
