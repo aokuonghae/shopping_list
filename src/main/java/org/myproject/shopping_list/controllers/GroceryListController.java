@@ -1,11 +1,8 @@
 package org.myproject.shopping_list.controllers;
 
-import org.myproject.shopping_list.models.GroceryList;
-import org.myproject.shopping_list.models.Item;
-import org.myproject.shopping_list.models.LastBought;
+import org.myproject.shopping_list.models.*;
 import org.myproject.shopping_list.models.data.GroceryListRepository;
 import org.myproject.shopping_list.models.data.ItemRepository;
-import org.myproject.shopping_list.models.dto.GroceryListItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +23,13 @@ public class GroceryListController {
     private GroceryListRepository groceryListRepository;
     @Autowired
     private ItemRepository itemRepository;
+    @Autowired
+    private ItemService itemService;
 
     @GetMapping
     public String index(Model model) {
         model.addAttribute("title", "My Lists");
-        model.addAttribute("lists", groceryListRepository.findAll());
+        model.addAttribute("lists", itemService.getAllGroceryLists());
 
         return "groceries/index";
     }
@@ -39,7 +38,7 @@ public class GroceryListController {
     public String displayNewGroceryList(Model model){
         model.addAttribute("title", "New Grocery List");
         model.addAttribute(new GroceryList());
-        model.addAttribute("items", itemRepository.findAll());
+        model.addAttribute("items", itemService.getAllItems());
         return "groceries/new";
     }
     @PostMapping("new")
@@ -89,24 +88,19 @@ public class GroceryListController {
         }
     }
 
-//    @PutMapping("shopping/{groceryListId}")
-//    public String updateItemLastBought(Model model, @RequestParam(value="bought") List<Integer> itemIds,
-//                                      LastBought dateContainer){
-//        List<Item> itemList= (List<Item>)itemRepository.findAllById(itemIds);
-//
-//        dateContainer.setDateTime(LocalDateTime.now());
-//        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
-//
-//        String lastBought = formatter1.format(dateContainer.getDateTime());
-//
-//
-//        if (itemIds != null) {
-//            for (int id : itemIds) {
-//                groceryItem.updateItem(id,lastBought);
-//            }
-//        }
-//
-//        return "redirect:..";
-//
-//    }
+    @PostMapping("shopping/{groceryListId}")
+    public String updateItemLastBought(Model model, @RequestParam(value="bought") List<Integer> itemIds,
+                                      LastBought dateContainer) throws ItemNotFoundException {
+        dateContainer.setDateTime(LocalDateTime.now());
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
+
+        String lastBought = formatter1.format(dateContainer.getDateTime());
+
+        if (itemIds != null) {
+            for (int id : itemIds) {
+               itemService.setItemTime(lastBought, id);
+            }
+        }
+        return "redirect:/groceries/view/{groceryListId}";
+    }
 }

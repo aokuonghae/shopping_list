@@ -1,5 +1,6 @@
 package org.myproject.shopping_list.models;
 
+import org.myproject.shopping_list.models.data.GroceryListRepository;
 import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class ItemService {
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    GroceryListRepository groceryListRepository;
+
     public List<Item> getAllItems(){
         List<Item> result= (List<Item>) itemRepository.findAll();
 
@@ -24,6 +28,13 @@ public class ItemService {
         }
     }
 
+    public List<GroceryList> getAllGroceryLists(){
+        List<GroceryList> result = (List<GroceryList>) groceryListRepository.findAll();
+
+        return result;
+    }
+
+
     public Item getItemById(Integer id) throws ItemNotFoundException {
         Optional<Item> item= itemRepository.findById(id);
         if(item.isPresent()) {
@@ -33,12 +44,45 @@ public class ItemService {
         }
     }
 
-    public Item create(Item itemEntity) {
+    public GroceryList getGroceryById(Integer id) throws ItemNotFoundException {
+        Optional<GroceryList> groceryList = groceryListRepository.findById(id);
+        if (groceryList.isPresent()){
+            return groceryList.get();
+        }else {
+            throw new ItemNotFoundException("No Grocery record exists for given id");
+        }
+    }
+
+    public Item createItem(Item itemEntity) {
         itemEntity = itemRepository.save(itemEntity);
         return itemEntity;
     }
 
-    public Item edit(Item itemEntity, Integer id) throws ItemNotFoundException{
+    public GroceryList createGroceryList(List<Integer> itemIds, GroceryList groceryEntity) {
+        List<Item> itemList= (List<Item>) itemRepository.findAllById(itemIds);
+        groceryEntity.setItems(itemList);
+        return groceryEntity;
+    }
+
+    public GroceryList addItemToGroceryList(GroceryList groceryEntity, Integer itemId, List<Item> itemEntity)
+        throws ItemNotFoundException {
+
+        List<Item> previousItems= groceryEntity.getItems();
+        previousItems.addAll(itemEntity);
+
+        Optional <GroceryList> groceryList = groceryListRepository.findById(groceryEntity.getId());
+        if (groceryList.isPresent()) {
+            GroceryList newGroceryList = groceryList.get();
+            newGroceryList.setItems(previousItems);
+
+            newGroceryList=groceryListRepository.save(newGroceryList);
+            return newGroceryList;
+        }else {
+            throw new ItemNotFoundException("This Grocery List ID does not exist");
+        }
+    }
+
+    public Item editItem(Item itemEntity, Integer id) throws ItemNotFoundException{
         Optional<Item> item = itemRepository.findById(id);
         String lastBought= itemEntity.getLastBought();
             if (item.isPresent()) {
@@ -52,8 +96,18 @@ public class ItemService {
             } else {
                 throw new ItemNotFoundException("This ID does not exist.");
             }
+    }
 
-
+    public Item setItemTime(String time, Integer id) throws ItemNotFoundException{
+        Optional<Item> item = itemRepository.findById(id);
+        if (item.isPresent()){
+            Item newItem=item.get();
+            newItem.setLastBought(time);
+            newItem= itemRepository.save(newItem);
+            return newItem;
+        }else {
+            throw new ItemNotFoundException("This ID does not exist");
+        }
     }
 
     public void deleteItemById(Integer id) throws ItemNotFoundException{

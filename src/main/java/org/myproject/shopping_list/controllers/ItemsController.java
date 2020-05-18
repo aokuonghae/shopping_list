@@ -39,7 +39,7 @@ public class ItemsController {
     @RequestMapping(path={"/edit/{id}"}, method = RequestMethod.POST)
     public String processEditItemForm(Model model, Item item,
                                       @PathVariable("id") int id) throws ItemNotFoundException{
-        itemService.edit(item, id);
+        itemService.editItem(item, id);
         return "redirect:/items";
     }
 
@@ -53,7 +53,7 @@ public class ItemsController {
 
     @RequestMapping(path="create", method=RequestMethod.POST)
     public String processCreateOrUpdateItemForm(Item item){
-      itemService.create(item);
+      itemService.createItem(item);
       return "redirect:";
     }
 
