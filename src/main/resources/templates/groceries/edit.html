@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<header th:replace="fragments :: page-header"></header>
+
+<h3> Edit Item</h3>
+<div class="card">
+    <div class="card-body">
+        <div class="col-md-10">
+            <form action=""  th:action="@{/items/edit/{id}(id=${item.id})}" th:object="${item}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <label for="name" class="col-form-label">Item Name</label>
+                        <input type="text" th:field="${item.name}" class="form-control"
+                               id="name" placeholder="Item Name" />
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label>Type
+                            <select th:field="${item.itemType}">
+                                <option th:each="type: ${types}"
+                                        th:value="${type}"
+                                        th:text="${type.displayName}"
+                                ></option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="submit" class="btn btn-primary" value=" Submit ">
+                    </div>
+
+                    <input type="hidden" id="id" th:field="*{id}">
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

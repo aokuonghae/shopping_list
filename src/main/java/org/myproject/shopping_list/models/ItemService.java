@@ -119,4 +119,7 @@ public class ItemService {
             throw new ItemNotFoundException("No item exists for given id");
         }
     }
+
+    public void deleteFromGroceryById(Integer id) throws ItemNotFoundException{
+    }
 }
