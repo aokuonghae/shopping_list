@@ -48,10 +48,7 @@ public class GroceryListController {
             model.addAttribute("title", "New Grocery List");
             return "groceries/new";
         }
-        List<Item> itemList= (List<Item>)itemRepository.findAllById(items);
-
-        newGroceryList.setItems(itemList);
-        groceryListRepository.save(newGroceryList);
+        itemService.createGroceryList(items, newGroceryList);
         return "redirect:";
     }
 

@@ -28,6 +28,19 @@ public class ItemsController {
         return "items/index";
     }
 
+    @GetMapping("create")
+    public String displayCreateItemForm(Model model){
+        model.addAttribute("item", new Item());
+        model.addAttribute("types", ItemType.values());
+        return "items/create";
+    }
+
+    @RequestMapping(path="create", method=RequestMethod.POST)
+    public String processCreateOrUpdateItemForm(Item item){
+        itemService.createItem(item);
+        return "redirect:";
+    }
+
     @GetMapping(path= {"/edit/{id}"})
     public String displayCreateItemForm(Model model, @PathVariable("id") Optional<Integer> id)
             throws ItemNotFoundException{
@@ -42,21 +55,6 @@ public class ItemsController {
         itemService.editItem(item, id);
         return "redirect:/items";
     }
-
-    @GetMapping("create")
-    public String displayCreateItemForm(Model model){
-        model.addAttribute("item", new Item());
-        model.addAttribute("types", ItemType.values());
-        return "items/create";
-    }
-
-
-    @RequestMapping(path="create", method=RequestMethod.POST)
-    public String processCreateOrUpdateItemForm(Item item){
-      itemService.createItem(item);
-      return "redirect:";
-    }
-
 
     @RequestMapping(path="delete/{id}", method=RequestMethod.GET)
     public String displayDeleteItemById(Model model, @PathVariable("id") Integer id)

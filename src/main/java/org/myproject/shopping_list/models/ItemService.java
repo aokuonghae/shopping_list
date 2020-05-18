@@ -61,6 +61,7 @@ public class ItemService {
     public GroceryList createGroceryList(List<Integer> itemIds, GroceryList groceryEntity) {
         List<Item> itemList= (List<Item>) itemRepository.findAllById(itemIds);
         groceryEntity.setItems(itemList);
+        groceryEntity= groceryListRepository.save(groceryEntity);
         return groceryEntity;
     }
 
