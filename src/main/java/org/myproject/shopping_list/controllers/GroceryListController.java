@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Path;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -90,7 +91,6 @@ public class GroceryListController {
                                       LastBought dateContainer) throws ItemNotFoundException {
         dateContainer.setDateTime(LocalDateTime.now());
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
-
         String lastBought = formatter1.format(dateContainer.getDateTime());
 
         if (itemIds != null) {
@@ -100,4 +100,15 @@ public class GroceryListController {
         }
         return "redirect:/groceries/view/{groceryListId}";
     }
+
+    @RequestMapping(path="/delete/{groceryListId}/{itemId}", method=RequestMethod.GET)
+    public String deleteFromGroceryListById(Model model, @PathVariable Integer itemId,
+                                            @PathVariable Integer groceryListId )
+    throws ItemNotFoundException {
+        itemService.deleteItemFromGroceryById(groceryListId, itemId);
+
+        return "redirect:/groceries/view/{groceryListId}";
+    }
+
+
 }

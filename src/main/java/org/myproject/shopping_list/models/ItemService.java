@@ -91,7 +91,6 @@ public class ItemService {
                 newItem.setItemType(itemEntity.getItemType());
                 newItem.setName(itemEntity.getName());
                 newItem.setLastBought(lastBought);
-
                 newItem = itemRepository.save(newItem);
                 return newItem;
             } else {
@@ -120,6 +119,24 @@ public class ItemService {
         }
     }
 
-    public void deleteFromGroceryById(Integer id) throws ItemNotFoundException{
+    public void deleteGroceryListById(Integer id) {
+        groceryListRepository.deleteById(id);
+    }
+
+    public GroceryList deleteItemFromGroceryById(Integer groceryId, Integer id) throws ItemNotFoundException{
+        Optional<Item> item = itemRepository.findById(id);
+        Item actualItem= item.get();
+        Optional <GroceryList> getGroceryList = groceryListRepository.findById(groceryId);
+        GroceryList myList = getGroceryList.get();
+        List previousItems= myList.getItems();
+        if (previousItems.contains(actualItem)){
+            previousItems.remove(actualItem);
+            myList.setItems(previousItems);
+
+            myList=groceryListRepository.save(myList);
+            return myList;
+        }else {
+            throw new ItemNotFoundException("Grocery list did not include that item ID");
+        }
     }
 }
