@@ -101,13 +101,18 @@ public class GroceryListController {
         return "redirect:/groceries/view/{groceryListId}";
     }
 
-    @RequestMapping(path="/delete/{groceryListId}/{itemId}", method=RequestMethod.GET)
-    public String deleteFromGroceryListById(Model model, @PathVariable Integer itemId,
+    @RequestMapping(value={"/delete/{groceryListId}", "/delete/{groceryListId}/{itemId}" }, method=RequestMethod.GET)
+    public String deleteFromGroceryListById(Model model, @PathVariable(required=false) Integer itemId,
                                             @PathVariable Integer groceryListId )
     throws ItemNotFoundException {
-        itemService.deleteItemFromGroceryById(groceryListId, itemId);
+        if (itemId != null){
+            itemService.deleteItemFromGroceryById(groceryListId, itemId);
+            return "redirect:/groceries/view/{groceryListId}";
+        } else {
+            itemService.deleteGroceryListById(groceryListId);
+            return "redirect:/groceries";
+        }
 
-        return "redirect:/groceries/view/{groceryListId}";
     }
 
 

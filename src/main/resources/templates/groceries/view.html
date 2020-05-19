@@ -38,14 +38,15 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{'/groceries/delete/'+ ${list.id} + '/' + ${item.id}}" class="btn btn-primary">
+                                    <a th:href="@{'/groceries/delete/'+ ${list.id} + '/' + ${item.id}}" class="btn btn-danger">
                                         <i class="fas fa-user-times ml-2"></i>
                                     </a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        <a th:href="@{'/groceries/shopping/'+ ${list.id}}">Go Shopping</a>
+                        <a th:href="@{'/groceries/shopping/'+ ${list.id}}" class="btn btn-primary">Go Shopping</a>
+                        <a th:href="@{'/groceries/delete/' + ${list.id}}" class="btn btn-danger">Delete Grocery List</a>
                     </div>
 
                 </div>
