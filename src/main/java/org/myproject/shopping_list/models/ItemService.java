@@ -29,6 +29,17 @@ public class ItemService {
         }
     }
 
+    public Boolean itemCheck(Integer itemId, Integer groceryId){
+        Item checkedItem= itemRepository.findById(itemId).get();
+        GroceryList groceryList= groceryListRepository.findById(groceryId).get();
+        List<Item> groceryItems= groceryList.getItems();
+        if (groceryItems.contains(checkedItem)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     public List<GroceryList> getAllGroceryLists(){
         List<GroceryList> result = (List<GroceryList>) groceryListRepository.findAll();
 

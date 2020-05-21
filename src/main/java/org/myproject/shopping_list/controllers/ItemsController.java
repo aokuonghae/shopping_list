@@ -5,9 +5,12 @@ import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,10 +69,18 @@ public class ItemsController {
 
     @RequestMapping(path="add/{itemId}", method=RequestMethod.POST)
     public String processAddItemById(Model model, @PathVariable Integer itemId,
-                                     @RequestParam("groceryListIds") List<Integer> groceryListIds) {
-        for (int i=0; i<groceryListIds.size(); i++){
-            itemService.addSingleItemToGroceryList(groceryListIds.get(i), itemId);
-        }
+                                     @RequestParam("groceryListIds") List<Integer> groceryListIds) throws ItemNotFoundException {
+            for (int i=0; i<groceryListIds.size(); i++){
+                if (itemService.itemCheck(itemId,groceryListIds.get(i)) == true){
+                    List<GroceryList> allGroceries= itemService.getAllGroceryLists();
+                    model.addAttribute("item", itemService.getItemById(itemId));
+                    model.addAttribute("allGroceries", allGroceries);
+                    model.addAttribute("errorMsg", "This item already exists in a list");
+                    return "items/add";
+                } else {
+                    itemService.addSingleItemToGroceryList(groceryListIds.get(i), itemId);
+                }
+            }
         return "redirect:/items";
     }
 
@@ -79,5 +90,4 @@ public class ItemsController {
         itemService.deleteItemById(id);
         return "redirect:/items";
     }
-
 }
