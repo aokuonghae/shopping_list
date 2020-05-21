@@ -134,7 +134,16 @@ public class ItemService {
 
     public void deleteItemById(Integer id) throws ItemNotFoundException{
         Optional <Item> item = itemRepository.findById(id);
+        Item actualItem= item.get();
         if (item.isPresent()){
+            List<GroceryList> result = (List<GroceryList>) groceryListRepository.findAll();
+            for (int i=0; i<result.size(); i++){
+                GroceryList single = result.get(i);
+                List<Item> itemList= single.getItems();
+                if (itemList.contains(actualItem)) {
+                    deleteItemFromGroceryById(single.getId(), id);
+                }
+            }
             itemRepository.deleteById(id);
         }else {
             throw new ItemNotFoundException("No item exists for given id");

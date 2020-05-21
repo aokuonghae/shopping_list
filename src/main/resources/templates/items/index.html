@@ -43,7 +43,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{/items/add/{id}(id=${item.id})}" class="btn btn-primary">
+                                    <a th:href="@{/items/add/{id}(id=${item.id})}" onclick="return confirm('Deleting this item will remove it from any grocery List it is in. Proceed?');" class="btn btn-primary">
                                         <i class="fas fa-folder-plus ml-2"></i>
                                     </a>
                                 </td>
