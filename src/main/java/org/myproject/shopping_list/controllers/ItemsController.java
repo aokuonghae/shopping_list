@@ -1,9 +1,6 @@
 package org.myproject.shopping_list.controllers;
 
-import org.myproject.shopping_list.models.Item;
-import org.myproject.shopping_list.models.ItemNotFoundException;
-import org.myproject.shopping_list.models.ItemService;
-import org.myproject.shopping_list.models.ItemType;
+import org.myproject.shopping_list.models.*;
 import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -18,13 +16,12 @@ import java.util.Optional;
 public class ItemsController {
     @Autowired
     ItemService itemService;
-    @Autowired
-    ItemRepository itemRepository;
 
     @RequestMapping
     public String displayAllItems(Model model){
+        List<Item> items= itemService.getAllItems();
         model.addAttribute("title", "All Items");
-        model.addAttribute("items", itemService.getAllItems());
+        model.addAttribute("items", items);
         return "items/index";
     }
 
@@ -56,10 +53,31 @@ public class ItemsController {
         return "redirect:/items";
     }
 
+    @GetMapping(path="add/{itemId}")
+    public String displayAddItemById (Model model, @PathVariable Optional<Integer> itemId,
+                                      @PathVariable(required=false) Integer groceryListIds)
+            throws ItemNotFoundException {
+        List<GroceryList> allGroceries= itemService.getAllGroceryLists();
+        model.addAttribute("item", itemService.getItemById(itemId.get()));
+        model.addAttribute("allGroceries", allGroceries);
+
+        return "/items/add";
+    }
+
+    @RequestMapping(path="add/{itemId}", method=RequestMethod.POST)
+    public String processAddItemById(Model model, @PathVariable Integer itemId,
+                                     @RequestParam("groceryListIds") List<Integer> groceryListIds) {
+        for (int i=0; i<groceryListIds.size(); i++){
+            itemService.addSingleItemToGroceryList(groceryListIds.get(i), itemId);
+        }
+        return "redirect:/items";
+    }
+
     @RequestMapping(path="delete/{id}", method=RequestMethod.GET)
     public String displayDeleteItemById(Model model, @PathVariable("id") Integer id)
             throws ItemNotFoundException{
         itemService.deleteItemById(id);
         return "redirect:/items";
     }
+
 }

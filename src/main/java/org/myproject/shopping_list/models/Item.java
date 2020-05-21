@@ -2,6 +2,7 @@ package org.myproject.shopping_list.models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Item extends AbstractEntity{
     @ManyToMany(mappedBy="items")
     private List<GroceryList> groceryLists= new ArrayList<>();
 
-    private String lastBought;
+    private LocalDateTime lastBought;
 
     public Item(){}
 
@@ -30,11 +31,11 @@ public class Item extends AbstractEntity{
         return groceryLists;
     }
 
-    public String getLastBought() {
+    public LocalDateTime getLastBought() {
         return lastBought;
     }
 
-    public void setLastBought(String lastBought) {
+    public void setLastBought(LocalDateTime lastBought) {
         this.lastBought = lastBought;
     }
 

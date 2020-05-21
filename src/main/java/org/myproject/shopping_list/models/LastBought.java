@@ -1,5 +1,6 @@
 package org.myproject.shopping_list.models;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
@@ -16,16 +17,14 @@ public class LastBought {
     }
 
     public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+        this.dateTime = LocalDateTime.now();
     }
 
-    public static String getLastBought() {
-
-        LocalDateTime calendarDate= LocalDateTime.now();
-        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
-
-        String lastBought = formatter1.format(calendarDate);
-
-        return lastBought;
+    public static LocalDateTime getLastBought() {
+//        LocalDateTime calendarDate= LocalDateTime.now();
+//        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
+//        formatter1.format(calendarDate);
+        return LocalDateTime.now();
     }
+
 }

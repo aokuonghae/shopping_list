@@ -1,5 +1,6 @@
 package org.myproject.shopping_list.controllers;
 
+import org.apache.tomcat.jni.Local;
 import org.myproject.shopping_list.models.*;
 import org.myproject.shopping_list.models.data.GroceryListRepository;
 import org.myproject.shopping_list.models.data.ItemRepository;
@@ -30,7 +31,8 @@ public class GroceryListController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("title", "My Lists");
-        model.addAttribute("lists", itemService.getAllGroceryLists());
+        List<GroceryList> groceryList= itemService.getAllGroceryLists();
+        model.addAttribute("lists", groceryList);
 
         return "groceries/index";
     }
@@ -69,14 +71,7 @@ public class GroceryListController {
     public String displayMyShoppingList(Model model, @PathVariable int groceryListId,
                                         LastBought dateContainer){
         Optional optGroceryList= groceryListRepository.findById(groceryListId);
-
-        dateContainer.setDateTime(LocalDateTime.now());
-        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
-
-        String lastBought = formatter1.format(dateContainer.getDateTime());
-
-        model.addAttribute("date", lastBought);
-
+        model.addAttribute("date", dateContainer.getLastBought());
         if (optGroceryList.isPresent()){
             GroceryList list= (GroceryList) optGroceryList.get();
             model.addAttribute("list", list);
@@ -87,15 +82,11 @@ public class GroceryListController {
     }
 
     @PostMapping("shopping/{groceryListId}")
-    public String updateItemLastBought(Model model, @RequestParam(value="bought") List<Integer> itemIds,
-                                      LastBought dateContainer) throws ItemNotFoundException {
-        dateContainer.setDateTime(LocalDateTime.now());
-        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
-        String lastBought = formatter1.format(dateContainer.getDateTime());
-
+    public String updateItemLastBought(Model model, @RequestParam(value="bought") List<Integer> itemIds)
+            throws ItemNotFoundException {
         if (itemIds != null) {
             for (int id : itemIds) {
-               itemService.setItemTime(lastBought, id);
+               itemService.setItemTime(LocalDateTime.now(), id);
             }
         }
         return "redirect:/groceries/view/{groceryListId}";
@@ -112,8 +103,6 @@ public class GroceryListController {
             itemService.deleteGroceryListById(groceryListId);
             return "redirect:/groceries";
         }
-
     }
-
 
 }

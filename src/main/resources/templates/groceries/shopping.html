@@ -8,7 +8,7 @@
     <header th:replace="fragments :: page-header"></header>
 
     <h1 th:text="${list.name}"></h1>
-    <p th:text="${date}"></p>
+    <p th:text="${date}" name="time"></p>
 
     <form method="post" style="max-width:600px;">
        <div class="form-group">

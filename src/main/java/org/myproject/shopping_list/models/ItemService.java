@@ -5,6 +5,7 @@ import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -83,9 +84,19 @@ public class ItemService {
         }
     }
 
+    public GroceryList addSingleItemToGroceryList(Integer groceryId, Integer itemId){
+        Item itemToAdd= itemRepository.findById(itemId).get();
+        GroceryList groceryList= groceryListRepository.findById(groceryId).get();
+        List<Item> groceryItems= groceryList.getItems();
+        groceryItems.add(itemToAdd);
+        groceryList.setItems(groceryItems);
+        GroceryList newGroceryList=groceryListRepository.save(groceryList);
+        return newGroceryList;
+    }
+
     public Item editItem(Item itemEntity, Integer id) throws ItemNotFoundException{
         Optional<Item> item = itemRepository.findById(id);
-        String lastBought= itemEntity.getLastBought();
+        LocalDateTime lastBought= itemEntity.getLastBought();
             if (item.isPresent()) {
                 Item newItem = item.get();
                 newItem.setItemType(itemEntity.getItemType());
@@ -98,7 +109,7 @@ public class ItemService {
             }
     }
 
-    public Item setItemTime(String time, Integer id) throws ItemNotFoundException{
+    public Item setItemTime(LocalDateTime time, Integer id) throws ItemNotFoundException{
         Optional<Item> item = itemRepository.findById(id);
         if (item.isPresent()){
             Item newItem=item.get();
@@ -124,10 +135,8 @@ public class ItemService {
     }
 
     public GroceryList deleteItemFromGroceryById(Integer groceryId, Integer id) throws ItemNotFoundException{
-        Optional<Item> item = itemRepository.findById(id);
-        Item actualItem= item.get();
-        Optional <GroceryList> getGroceryList = groceryListRepository.findById(groceryId);
-        GroceryList myList = getGroceryList.get();
+        Item actualItem = itemRepository.findById(id).get();
+        GroceryList myList = groceryListRepository.findById(groceryId).get();
         List previousItems= myList.getItems();
         if (previousItems.contains(actualItem)){
             previousItems.remove(actualItem);

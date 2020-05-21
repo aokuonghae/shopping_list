@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<header th:replace="fragments :: page-header"></header>
+
+<div class="container my-2">
+    <div class="card">
+        <div class="card-body">
+            <div th:switch="${allGroceries.size()}" class="container my-5">
+                <div class="col-md-10">
+                    <h2 th:case="0">You have no groceries!</h2>
+                    <div th:case="*">
+                        <h3 th:text="'Add '+ ${item.name}+ ' to:'"> Choose grocery list</h3>
+                        <div class="col-md-10">
+                            <form method="post" style="max-width:600px;">
+                                <div class="form-group">
+                                    <li th:each="grocery : ${allGroceries}">
+                                        <input type="checkbox" name="groceryListIds" th:value="${grocery.id}">
+                                        <label th:text="${grocery.name}"></label>
+                                    </li>
+                                    <a th:href="@{/groceries/new}">New Grocery List</a>
+                                </div>
+
+                                <input type="submit" value="Add to grocery List" />
+                                    </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
