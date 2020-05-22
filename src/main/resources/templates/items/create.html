@@ -5,14 +5,15 @@
 
 <header th:replace="fragments :: page-header"></header>
 
+<p th:text="${errorMsg}" style="color:red;"></p>
 <h3> Add Item</h3>
 <div class="card">
     <div class="card-body">
         <div class="col-md-10">
-            <form th:action="@{create}" th:object="${item}" method="post">
+            <form action="#" th:action="@{create}" th:object="${item}" method="post">
                 <div class="row">
                     <div class="form-group col-md-8">
-                        <label for="name" class="col-form-label">Item Name</label>
+                        <label for="name" class="col-form-label">Last Name</label>
                         <input type="text" th:field="*{name}" class="form-control"
                                id="name" placeholder="Item Name" />
                     </div>
@@ -26,14 +27,13 @@
                             </select>
                         </label>
                     </div>
-                    <div th:if="${message}" th:class="${'alert ' + alertClass}"/>
-                    <p th:text="${message}"></p>
-                </div>
 
                     <div class="col-md-6">
-                        <input type="submit" id="confirmation" class="btn btn-primary" data-toggle="modal" value=" Submit ">
+                        <input type="submit" class="btn btn-primary" value=" Submit ">
                     </div>
                     <input type="hidden" id="id" th:field="*{id}">
+
+                </div>
             </form>
         </div>
     </div>

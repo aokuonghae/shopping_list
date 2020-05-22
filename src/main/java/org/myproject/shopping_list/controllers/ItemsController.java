@@ -45,8 +45,7 @@ public class ItemsController {
             String checkedItem=allItems.get(i).getName().toLowerCase();
             String newitem= item.getName().toLowerCase();
             if (checkedItem.equals(newitem)){
-                redirectAttributes.addAttribute("message", "already exists.");
-                redirectAttributes.addAttribute("alertClass", "alert-danger");
+                model.addAttribute("errorMsg", "This item already exists in a list");
                 model.addAttribute("types", ItemType.values());
                 return "items/create";
             }
