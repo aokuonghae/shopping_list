@@ -5,8 +5,10 @@ import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.validation.Valid;
@@ -29,14 +31,28 @@ public class ItemsController {
     }
 
     @GetMapping("create")
-    public String displayCreateItemForm(Model model){
+    public String displayCreateItemForm(Model model, @RequestParam(value="message", required = false) String message){
         model.addAttribute("item", new Item());
         model.addAttribute("types", ItemType.values());
+        model.addAttribute("message");
         return "items/create";
     }
 
     @RequestMapping(path="create", method=RequestMethod.POST)
-    public String processCreateOrUpdateItemForm(Item item){
+    public String processCreateOrUpdateItemForm(Item item, Model model, RedirectAttributes redirectAttributes){
+        List<Item> allItems= itemService.getAllItems();
+        for (int i=0; i<allItems.size(); i++){
+            String checkedItem=allItems.get(i).getName().toLowerCase();
+            String newitem= item.getName().toLowerCase();
+            if (checkedItem.equals(newitem)){
+                redirectAttributes.addAttribute("message", "already exists.");
+                redirectAttributes.addAttribute("alertClass", "alert-danger");
+                model.addAttribute("types", ItemType.values());
+                return "items/create";
+            }
+        }
+        redirectAttributes.addFlashAttribute("message", "Your item has been added.");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         itemService.createItem(item);
         return "redirect:";
     }
