@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Path;
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -46,13 +47,15 @@ public class GroceryListController {
     }
     @PostMapping("new")
     public String processNewGroceryListForm(@ModelAttribute @Valid GroceryList newGroceryList, Errors errors,
-                                            Model model, @RequestParam(value="items") List<Integer> items){
+                                            Model model, @RequestParam(value="items", required=false) List<Integer> items){
         if (errors.hasErrors()){
             model.addAttribute("title", "New Grocery List");
+            model.addAttribute("items", itemService.getAllItems());
             return "groceries/new";
         }
         itemService.createGroceryList(items, newGroceryList);
         return "redirect:";
+
     }
 
     @GetMapping("view/{groceryListId}")
@@ -69,9 +72,10 @@ public class GroceryListController {
 
     @GetMapping("shopping/{groceryListId}")
     public String displayMyShoppingList(Model model, @PathVariable int groceryListId,
-                                        LastBought dateContainer){
+                                        LastBought day){
         Optional optGroceryList= groceryListRepository.findById(groceryListId);
-        model.addAttribute("date", dateContainer.getLastBought());
+        LocalDateTime date=day.getLastBought();
+        model.addAttribute("date", LastBought.convertLastBought(date));
         if (optGroceryList.isPresent()){
             GroceryList list= (GroceryList) optGroceryList.get();
             model.addAttribute("list", list);

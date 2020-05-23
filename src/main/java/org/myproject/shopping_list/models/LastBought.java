@@ -10,21 +10,13 @@ import java.util.Locale;
 
 public class LastBought {
 
-    private LocalDateTime dateTime;
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = LocalDateTime.now();
-    }
-
     public static LocalDateTime getLastBought() {
-//        LocalDateTime calendarDate= LocalDateTime.now();
-//        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
-//        formatter1.format(calendarDate);
         return LocalDateTime.now();
+    }
+
+    public static String convertLastBought(LocalDateTime date) {
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale.ENGLISH);
+        return formatter1.format(date);
     }
 
 }

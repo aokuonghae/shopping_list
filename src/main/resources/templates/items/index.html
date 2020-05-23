@@ -25,6 +25,7 @@
                                 <th>ID</th>
                                 <th>Item Name</th>
                                 <th>Item Type</th>
+                                <th>Last Bought</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                                 <th>Add to Grocery List</th>
@@ -35,6 +36,7 @@
                                 <td th:text="${item.id}"></td>
                                 <td th:text="${item.name}"></td>
                                 <td th:text="${item.itemType}"></td>
+                                <td th:text="${item.stringLastBought}"></td>
                                 <td>
                                     <a th:href="@{/items/edit/{id}(id=${item.id})}" class="btn btn-primary">
                                         <i class="fas fa-user-edit ml-2"></i>

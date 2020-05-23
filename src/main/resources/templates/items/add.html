@@ -5,7 +5,7 @@
 
 <header th:replace="fragments :: page-header"></header>
 
-<p th:text="${errorMsg}" style="color:red;"></p>
+<p th:text="${errorMsg}" class="errors"></p>
 <div class="container my-2">
     <div class="card">
         <div class="card-body">
@@ -20,6 +20,7 @@
                                     <li th:each="grocery : ${allGroceries}">
                                         <input type="checkbox" name="groceryListIds" th:value="${grocery.id}">
                                         <label th:text="${grocery.name}"></label>
+                                        <p th:text="${errorMsg}" class="errors"></p>
                                     </li>
                                     <a th:href="@{/groceries/new}">New Grocery List</a>
                                 </div>

@@ -11,7 +11,7 @@
     <div class="form-group">
         <label th:for="name">Name</label>
         <input class="form-control" th:field="${groceryList.name}" />
-        <span th:errors="${groceryList.name}" class="error"></span>
+        <p th:errors="${groceryList.name}" class="error"></p>
     </div>
 
     <div class="form-group">
