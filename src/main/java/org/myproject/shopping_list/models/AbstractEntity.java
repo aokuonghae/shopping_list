@@ -9,7 +9,7 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
-    @NotBlank(message="Enter a name")
+    @NotBlank(message="Do not leave blank.")
     private String name;
 
     @Id

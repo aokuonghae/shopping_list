@@ -1,6 +1,12 @@
 .body-content {
 }
 
+p.error {
+ color: red;
+ font-size: 12px;
+ font-weight: bold;
+ }
+
 #logo {
  margin: 0 auto;
  width: 50%;

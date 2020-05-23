@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ItemsController {
     ItemService itemService;
 
     @RequestMapping
-    public String displayAllItems(Model model){
+    public String displayAllItems(Model model, HttpServletRequest request){
         List<Item> items= itemService.getAllItems();
         model.addAttribute("title", "All Items");
         model.addAttribute("items", items);
@@ -31,15 +32,18 @@ public class ItemsController {
     }
 
     @GetMapping("create")
-    public String displayCreateItemForm(Model model, @RequestParam(value="message", required = false) String message){
+    public String displayCreateItemForm(Model model){
         model.addAttribute("item", new Item());
         model.addAttribute("types", ItemType.values());
-        model.addAttribute("message");
         return "items/create";
     }
 
     @RequestMapping(path="create", method=RequestMethod.POST)
-    public String processCreateOrUpdateItemForm(Item item, Model model, RedirectAttributes redirectAttributes){
+    public String processCreateOrUpdateItemForm(@ModelAttribute @Valid Item item, Errors errors, Model model){
+        if (errors.hasErrors()) {
+            model.addAttribute("types", ItemType.values());
+            return "items/create";
+        }
         List<Item> allItems= itemService.getAllItems();
         for (int i=0; i<allItems.size(); i++){
             String checkedItem=allItems.get(i).getName().toLowerCase();
@@ -50,8 +54,6 @@ public class ItemsController {
                 return "items/create";
             }
         }
-        redirectAttributes.addFlashAttribute("message", "Your item has been added.");
-        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         itemService.createItem(item);
         return "redirect:";
     }

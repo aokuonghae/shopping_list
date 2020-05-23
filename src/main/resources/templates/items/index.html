@@ -13,6 +13,9 @@
                     <a href="/items/create" class="btn btn-primary">
                         <i class="fas fa-user-plus ml-2"> Add Item </i></a>
                 </p>
+                <h1 th:if="${success}">
+                    <p th:text="${success}"></p>
+                </h1>
                 <div class="col-md-10">
                     <h2 th:case="'0'">Whoops! You have no items yet.</h2>
                     <div th:case="*">
