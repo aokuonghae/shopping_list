@@ -48,4 +48,12 @@ public class Item extends AbstractEntity{
     public String getStringLastBought() {
         return stringLastBought;
     }
+
+    public int compareName(Item item){
+        if (getName()==null || item.getName()==null ){
+            return 0;
+        }
+        return getName().compareToIgnoreCase(item.getName());
+    }
+
 }

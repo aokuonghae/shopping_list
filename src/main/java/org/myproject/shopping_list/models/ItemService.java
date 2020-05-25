@@ -3,6 +3,7 @@ package org.myproject.shopping_list.models;
 import org.myproject.shopping_list.models.data.GroceryListRepository;
 import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ItemService {
+public class ItemService{
 
     @Autowired
     ItemRepository itemRepository;
@@ -20,9 +21,17 @@ public class ItemService {
     GroceryListRepository groceryListRepository;
 
     public List<Item> getAllItems(){
-        List<Item> result= (List<Item>) itemRepository.findAll();
-
+        List<Item> result= (List<Item>) itemRepository.findByOrderByNameAsc();
         if (result.size()>0){
+            return result;
+        } else {
+            return new ArrayList<Item>();
+        }
+    }
+
+    public List<Item> getAllItemsByDate(){
+        List<Item> result=(List<Item>) itemRepository.findByOrderByLastBoughtDesc();
+        if (result.size() > 0) {
             return result;
         } else {
             return new ArrayList<Item>();
@@ -168,4 +177,5 @@ public class ItemService {
             throw new ItemNotFoundException("Grocery list did not include that item ID");
         }
     }
+
 }

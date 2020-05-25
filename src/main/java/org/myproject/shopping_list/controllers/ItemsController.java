@@ -1,19 +1,16 @@
 package org.myproject.shopping_list.controllers;
 
+import org.hibernate.boot.model.source.spi.Sortable;
 import org.myproject.shopping_list.models.*;
-import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +20,10 @@ public class ItemsController {
     @Autowired
     ItemService itemService;
 
-    @RequestMapping
-    public String displayAllItems(Model model, HttpServletRequest request){
+    @GetMapping
+    public String displayAllItems(Model model){
         List<Item> items= itemService.getAllItems();
+        List<Item> times=itemService.getAllItemsByDate();
         model.addAttribute("title", "All Items");
         model.addAttribute("items", items);
         return "items/index";
