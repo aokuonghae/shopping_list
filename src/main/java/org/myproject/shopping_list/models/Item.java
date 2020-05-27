@@ -2,6 +2,7 @@ package org.myproject.shopping_list.models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,6 +12,9 @@ import java.util.Locale;
 
 @Entity
 public class Item extends AbstractEntity{
+
+    @NotBlank(message="Enter a name")
+    private String name;
 
     private ItemType itemType;
 
@@ -22,6 +26,7 @@ public class Item extends AbstractEntity{
     private String stringLastBought;
 
     public Item(){}
+
 
     public ItemType getItemType() {
         return itemType;
@@ -54,6 +59,21 @@ public class Item extends AbstractEntity{
             return 0;
         }
         return getName().compareToIgnoreCase(item.getName());
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

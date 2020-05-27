@@ -1,12 +1,9 @@
 package org.myproject.shopping_list.controllers;
 
-import org.myproject.shopping_list.error.ItemNotFoundException;
-import org.myproject.shopping_list.models.GroceryList;
-import org.myproject.shopping_list.models.Item;
-import org.myproject.shopping_list.models.LastBought;
-import org.myproject.shopping_list.repository.GroceryListRepository;
-import org.myproject.shopping_list.repository.ItemRepository;
-import org.myproject.shopping_list.service.ItemService;
+import org.apache.tomcat.jni.Local;
+import org.myproject.shopping_list.models.*;
+import org.myproject.shopping_list.models.data.GroceryListRepository;
+import org.myproject.shopping_list.models.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

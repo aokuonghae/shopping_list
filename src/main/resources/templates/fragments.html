@@ -3,33 +3,32 @@
 
 <head th:fragment="head">
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>EasyList</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link th:href="@{/css/easylist.css}" rel="stylesheet" />
-    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
-    <script type="text/javascript" th:src="@{/js/datatable.js}"></script>
-
+    <title th:text="${title}">Easylist</title>
 </head>
 
 <body>
 
-<div th:fragment="page-header" class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand">
-                <img id="logo" src="https://i.imgur.com/VrBSDDD.png" alt="EasyList logo"> </a>
+<section th:fragment="header">
+    <a id="site-title">
+        <div class="header">
+            <img src="/images/EzList.png" width="50" alt="EzList logo">
+            <h1> EasyList</h1>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a th:href="@{/}">EasyList</a></li>
-                <li><a th:href="@{/login}">Login</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+    </a>
+</section>
+
+<section th:fragment="user" class="user-section">
+    <form name="loginForm" th:action="@{/login}" method="get">
+        <input class="btn btn-outline-light" type="submit" value="Login">
+    </form>
+    <form name="registerForm" th:action="@{/register}" method="get">
+        <input class="btn btn-outline-light" type="submit" value="Register">
+    </form>
+</section>
 
 </body>
 </html>

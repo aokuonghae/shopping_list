@@ -1,4 +1,4 @@
-package org.myproject.shopping_list.models.dto;
+package org.myproject.shopping_list.dto;
 
 public class RegisterFormDTO extends LoginFormDTO {
 

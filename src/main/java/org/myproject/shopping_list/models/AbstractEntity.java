@@ -9,8 +9,6 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
-    @NotBlank(message="Do not leave blank.")
-    private String name;
 
     @Id
     @GeneratedValue
@@ -18,21 +16,6 @@ public abstract class AbstractEntity {
 
     public int getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return name;
     }
 
     @Override

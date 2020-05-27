@@ -1,4 +1,4 @@
-package org.myproject.shopping_list.models.data;
+package org.myproject.shopping_list.repository;
 
 import org.myproject.shopping_list.models.Item;
 import org.springframework.data.domain.Sort;

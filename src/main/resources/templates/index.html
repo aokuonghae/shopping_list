@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head">
-</head>
-<body>
+<head th:replace="fragments :: head"> </head>
 
-<header th:replace="fragments :: page-header"></header>
-
-<div class="container body-content">
-    <h2>Welcome to my thing! </h2>
-    <p> I'll getcha, getcha, some groceries</p>
-
-    <li><a th:href="@{/items}">View Items</a></li>
-    <li><a th:href="@{/items/create}">Create Item</a></li>
-    <li><a th:href="@{/groceries}">View Groceries</a></li>
-    <li><a th:href="@{/groceries/new}">New Grocery List</a></li>
-
+<body class="intro-page">
+<div class="container-welcome-page">
+    <div class="welcome-page-child">
+    <h2 id="title">Name here</h2>
+    <p id="welcome-text"> I'll getcha, getcha, some groceries
+        I'll getcha, getcha, some groceries
+        I'll getcha, getcha, some groceries
+        I'll getcha, getcha, some groceries
+        I'll getcha, getcha, some groceries
+        I'll getcha, getcha, some groceries
+        I'll getcha, getcha, some groceries
+    </p>
+    <section th:replace="fragments :: user"></section>
+    </div>
 </div>
 
 </body>
