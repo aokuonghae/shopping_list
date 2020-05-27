@@ -1,9 +1,7 @@
-package org.myproject.shopping_list.models.dto;
+package org.myproject.shopping_list.dto;
 
 import org.myproject.shopping_list.models.GroceryList;
 import org.myproject.shopping_list.models.Item;
-
-import javax.validation.constraints.NotNull;
 
 public class GroceryListItemDTO {
 

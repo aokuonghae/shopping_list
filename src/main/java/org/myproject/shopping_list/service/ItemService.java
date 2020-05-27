@@ -1,6 +1,8 @@
-package org.myproject.shopping_list.models;
+package org.myproject.shopping_list.service;
 
-import org.myproject.shopping_list.models.data.ItemRepository;
+import org.myproject.shopping_list.repository.ItemRepository;
+import org.myproject.shopping_list.models.Item;
+import org.myproject.shopping_list.error.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

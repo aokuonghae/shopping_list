@@ -1,25 +1,24 @@
-package org.myproject.shopping_list.models.dto;
+package org.myproject.shopping_list.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import org.myproject.shopping_list.validation.ValidEmail;
+
+import javax.validation.constraints.*;
 
 public class LoginFormDTO {
 
-    @NotNull (message="You must enter a username")
+    @NotNull
     @NotBlank (message="You must enter a username")
     @Size(min=3, max=20, message="Invalid username. Must be between 3 and 20.")
     private String username;
 
-    @NotNull (message="You must enter a password")
+    @NotNull
     @NotBlank (message="You must enter a password")
     @Size(min=3, max=20, message="Invalid password. Must be between 3 and 20.")
     private String password;
 
-    @NotNull (message="You must enter a valid email")
-    @NotBlank (message="You must enter a valid email")
-    @Email
+    @NotNull (message="You must enter a valid email.")
+    @NotEmpty
+    @ValidEmail(message="Invalid Email. Enter a valid email.")
     private String email;
 
     public String getUsername() {
