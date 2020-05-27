@@ -6,16 +6,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class LoginFormDTO {
-    @NotNull
-    @NotBlank
+
+    @NotNull (message="You must enter a username")
+    @NotBlank (message="You must enter a username")
     @Size(min=3, max=20, message="Invalid username. Must be between 3 and 20.")
     private String username;
 
-    @NotNull
-    @NotBlank
-    @Size(min=3, max=20, message="Invalid username. Must be between 3 and 20.")
+    @NotNull (message="You must enter a password")
+    @NotBlank (message="You must enter a password")
+    @Size(min=3, max=20, message="Invalid password. Must be between 3 and 20.")
     private String password;
 
+    @NotNull (message="You must enter a valid email")
+    @NotBlank (message="You must enter a valid email")
     @Email
     private String email;
 

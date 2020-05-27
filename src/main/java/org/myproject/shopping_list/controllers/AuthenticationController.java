@@ -52,7 +52,7 @@ public class AuthenticationController {
                                           Model model){
         if (errors.hasErrors()){
             model.addAttribute("title", "Register");
-            return "register";
+            return "/register";
         }
 
         User existingUser= userRepository.findByUsername(registerFormDTO.getUsername());
@@ -60,7 +60,7 @@ public class AuthenticationController {
         if(existingUser !=null){
             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
             model.addAttribute("title", "Register");
-            return "register";
+            return "/register";
         }
 
         User existingEmail= userRepository.findByEmail(registerFormDTO.getEmail());
@@ -68,7 +68,7 @@ public class AuthenticationController {
         if(existingEmail !=null){
             errors.rejectValue("email", "email.alreadyexists", "A user with that email already exists");
             model.addAttribute("title", "Register");
-            return "register";
+            return "/register";
         }
 
         String password= registerFormDTO.getPassword();
@@ -76,13 +76,13 @@ public class AuthenticationController {
         if (!password.equals(verifyPassword)){
             errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
             model.addAttribute("title","Registration");
-            return "register";
+            return "/register";
         }
 
         User newUser= new User(registerFormDTO.getUsername(), registerFormDTO.getPassword(), registerFormDTO.getEmail());
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
-        return "redirect:/index";
+        return "redirect:/items";
     }
 
     @GetMapping("/login")
@@ -114,7 +114,7 @@ public class AuthenticationController {
             return "login";
         }
         setUserInSession(request.getSession(), theUser);
-        return "redirect";
+        return "redirect:/items";
     }
 
     @GetMapping("/logout")

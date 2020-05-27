@@ -1,28 +1,66 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
-<body class="container">
+<head th:replace="fragments :: head">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script></head>
+<body class="intro-page">
 
-<header th:replace="fragments :: page-header"></header>
+<div class="container-welcome-page">
+    <div class="welcome-page-child">
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+                <h2> Sign in to your account.</h2>
 
-<form method="post" id="registerForm">
-    <div class="form-group">
-        <label th:for="username">Username
-            <input class="form-control" th:field="${loginFormDTO.username}">
-        </label>
-        <p class="error" th:errors="${loginFormDTO.username}"></p>
+                <!-- Icon -->
+                <div class="fadeIn first">
+                    <img src="/images/user-circle-solid.svg" id="icon" alt="User Icon" style="width:50px;height:50px;" />
+                </div>
+
+                <!-- Login Form -->
+                <form method="post" action="login">
+                    <label th:for="username">
+                        <input type="text" id="login" class="fadeIn second" name="login" th:field="${loginFormDTO.username}" placeholder="username">
+                    </label>
+                    <p class="error" th:errors="${loginFormDTO.username}"></p>
+
+                    <label for="password">
+                    <input type="password" id="password" class="fadeIn third" name="login" th:field="${loginFormDTO.password}" placeholder="password">
+                    </label>
+                    <p class="error" th:errors="${loginFormDTO.password}"></p>
+
+                    <input type="submit" class="fadeIn fourth" value="Log In">
+                </form>
+
+                <!-- Remind Passowrd -->
+                <div id="formFooter">
+                    <a class="underlineHover" href="#">Forgot Password?</a>
+                    <p class="underlineHover">Don't have an account? <a href="/register">Register for one.</a></p>
+                </div>
+
+            </div>
+        </div>
+<!--        <form method="post" action="login">-->
+<!--    <div class="form-group" th:field="${loginFormDTO.username}">-->
+<!--        <label th:for="username">Username-->
+<!--            <input class="form-control" th:field="${loginFormDTO.username}">-->
+<!--        </label>-->
+<!--        <p class="error" th:errors="${loginFormDTO.username}"></p>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <label>Password-->
+<!--            <input class="form-control" th:field="${loginFormDTO.password}" type="password">-->
+<!--        </label>-->
+<!--        <p class="error" th:errors="${loginFormDTO.password}"></p>-->
+<!--    </div>-->
+
+<!--    <input type="submit" class="btn btn-primary" value="Log In" />-->
+<!--</form>-->
+<!--        <p>Don't have an account? <a href="/register">Register for one.</a></p>-->
     </div>
-    <div class="form-group">
-        <label>Password
-            <input class="form-control" th:field="${loginFormDTO.password}" type="password">
-        </label>
-        <p class="error" th:errors="${loginFormDTO.password}"></p>
-    </div>
+</div>
 
-    <input type="submit" class="btn btn-primary" value="Log In" />
-</form>
 
-<p>Don't have an account? <a href="/register">Register for one.</a></p>
 
 </body>
 </html>
