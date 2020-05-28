@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+
+<header th:replace="fragments :: header"></header>
+
+<div class="container body-content">
+    <h2 th:text="'Welcome,'+ ${user.username}">Welcome to my thing! </h2>
+    <p> Here are your lists: </p>
+
+    <li><a th:href="@{/items}">View Items</a></li>
+    <li><a th:href="@{/items/create}">Create Item</a></li>
+    <li><a th:href="@{/groceries}">View Groceries</a></li>
+    <li><a th:href="@{/groceries/new}">New Grocery List</a></li>
+
+</div>
+
+</body>
+</html>

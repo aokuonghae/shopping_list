@@ -1,19 +1,18 @@
 package org.myproject.shopping_list.controllers;
 
+import org.myproject.shopping_list.error.ItemNotFoundException;
 import org.myproject.shopping_list.models.GroceryList;
 import org.myproject.shopping_list.models.Item;
-import org.myproject.shopping_list.error.ItemNotFoundException;
-import org.myproject.shopping_list.service.ItemService;
 import org.myproject.shopping_list.models.ItemType;
-import org.myproject.shopping_list.repository.ItemRepository;
+import org.myproject.shopping_list.models.User;
+import org.myproject.shopping_list.repository.UserRepository;
+import org.myproject.shopping_list.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -22,12 +21,13 @@ import java.util.Optional;
 @RequestMapping("items")
 public class ItemsController {
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public String displayAllItems(Model model){
         List<Item> items= itemService.getAllItems();
-        List<Item> times=itemService.getAllItemsByDate();
         model.addAttribute("title", "All Items");
         model.addAttribute("items", items);
         return "items/index";

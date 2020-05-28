@@ -9,6 +9,7 @@ import org.myproject.shopping_list.dto.RegisterFormDTO;
 import org.myproject.shopping_list.service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("")
 public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
@@ -44,6 +46,16 @@ public class AuthenticationController {
 
     private static void setUserInSession(HttpSession session, User user){
         session.setAttribute(userSessionKey, user.getId());
+    }
+
+    @GetMapping(value="")
+    public String index(Model model){
+        Object loggedInUser= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (loggedInUser.equals("anonymousUser")){
+            model.addAttribute("title", "EZList");
+            return "/index";
+        }
+        return "/register";
     }
 
     @GetMapping("/register")
@@ -105,6 +117,8 @@ public class AuthenticationController {
         setUserInSession(request.getSession(), newUser);
         return "/successful_registration";
     }
+
+
     @GetMapping("/confirm-account")
     public String confirmUserAccount(Model model, @RequestParam("token") String confirmationToken){
         ConfirmationToken token= confirmationTokenRepository.findByConfirmationToken(confirmationToken);
@@ -135,6 +149,7 @@ public class AuthenticationController {
             return "login";
         }
         User theUser= userRepository.findByUsername(loginFormDTO.getUsername());
+
         if(theUser ==null){
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
             model.addAttribute("title", "Log In");
@@ -148,7 +163,7 @@ public class AuthenticationController {
             return "login";
         }
         setUserInSession(request.getSession(), theUser);
-        return "redirect:/items";
+        return "redirect:/user";
     }
 
     @GetMapping("/logout")

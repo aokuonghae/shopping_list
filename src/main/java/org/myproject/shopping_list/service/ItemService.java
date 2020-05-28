@@ -1,11 +1,13 @@
 package org.myproject.shopping_list.service;
 
 import org.myproject.shopping_list.models.GroceryList;
+import org.myproject.shopping_list.models.User;
 import org.myproject.shopping_list.repository.GroceryListRepository;
 import org.myproject.shopping_list.repository.ItemRepository;
 import org.myproject.shopping_list.models.Item;
 import org.myproject.shopping_list.error.ItemNotFoundException;
 
+import org.myproject.shopping_list.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.Optional;
 
 @Service
 public class ItemService{
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     ItemRepository itemRepository;
@@ -25,6 +29,7 @@ public class ItemService{
     GroceryListRepository groceryListRepository;
 
     public List<Item> getAllItems(){
+
         List<Item> result= (List<Item>) itemRepository.findByOrderByNameAsc();
         if (result.size()>0){
             return result;

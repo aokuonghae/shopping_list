@@ -3,6 +3,7 @@ package org.myproject.shopping_list.models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +17,9 @@ public class GroceryList extends AbstractEntity {
     @ManyToMany
     private List<Item> items;
 
+    @ManyToOne
+    private User user;
+
     private LocalDateTime getDate=LastBought.getLastBought();
 
     public GroceryList(){}
@@ -25,6 +29,14 @@ public class GroceryList extends AbstractEntity {
     }
 
     //getters and setters
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public List<Item> getItems() {
         return items;
     }

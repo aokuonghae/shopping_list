@@ -1,39 +1,107 @@
 package org.myproject.shopping_list.models;
 
 import org.myproject.shopping_list.validation.ValidEmail;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.Entity;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class User extends AbstractEntity{
+public class User implements UserDetails{
+    public static Object passwordEncoder;
+    @Id
+    @GeneratedValue
+    private int id;
+
     @NotNull
     private String username;
     @NotNull
-    private String pwHash;
+    private String password;
     @ValidEmail
     @NotEmpty
     @NotNull
     private String email;
 
-    private Boolean isEnabled;
+    @OneToMany
+    @JoinColumn(name="user_id")
+    private List<Item> userItems= new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name="user_id")
+    private List<GroceryList> userGroceryLists= new ArrayList<>();
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+   private boolean enabled;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        return Arrays.asList(new SimpleGrantedAuthority("USER"));
+    }
+
+
 
     public User(){};
 
     public User (String username, String password, String email){
         this.username=username;
-        this.pwHash=encoder.encode(password);
+        this.password=encoder.encode(password);
         this.email=email;
-        this.isEnabled=false;
+        this.enabled=false;
     }
-    private static final BCryptPasswordEncoder encoder= new BCryptPasswordEncoder();
+    public static final BCryptPasswordEncoder encoder= new BCryptPasswordEncoder();
 
-    public boolean isMatchingPassword(String password){
-        return encoder.matches(password, pwHash);
+    public static User getCurrentUser(){
+        Object loggedInUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) loggedInUser;
+        return currentUser;
+    }
+
+    public boolean isMatchingPassword(String verifyPassword){
+        return encoder.matches(verifyPassword, password);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<Item> getItems() {
+        return userItems;
+    }
+
+    public void setItems(List<Item> items) {
+        this.userItems = items;
+    }
+
+    public List<GroceryList> getGroceryLists() {
+        return userGroceryLists;
+    }
+
+    public void setGroceryLists(List<GroceryList> groceryLists) {
+        this.userGroceryLists = groceryLists;
     }
 
     public String getUsername() {
@@ -44,12 +112,12 @@ public class User extends AbstractEntity{
         this.username = username;
     }
 
-    public String getPwHash() {
-        return pwHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPwHash(String pwHash) {
-        this.pwHash = pwHash;
+    public void setPassword(String password) {
+        this.password = encoder.encode(password);
     }
 
     public String getEmail() {
@@ -60,11 +128,22 @@ public class User extends AbstractEntity{
         this.email = email;
     }
 
-    public Boolean getEnabled() {
-        return isEnabled;
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnabled(Boolean enabled) {
-        isEnabled = enabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
