@@ -38,8 +38,6 @@ public class UserController {
         Optional<User> optUser= userRepository.findById(id);
         User user= optUser.get();
 
-        User currentUser= User.getCurrentUser();
-        model.addAttribute("currentUser", currentUser);
         model.addAttribute("title", "EZList");
         model.addAttribute("user", user);
         model.addAttribute("items", user.getItems());
@@ -47,16 +45,23 @@ public class UserController {
         return "user/index";
     }
 
+    @GetMapping(value="/{id}/account")
+    public String viewAccount(@PathVariable int id, Model model){
+        Optional<User> optUser= userRepository.findById(id);
+        User user= optUser.get();
+        model.addAttribute("title", "EZList");
+        model.addAttribute("user", user);
+
+        return "user/account";
+    }
+
     @GetMapping(value="/{id}/edit")
     public String editUser(@PathVariable int id, Model model){
         Optional<User> optUser= userRepository.findById(id);
         User user= optUser.get();
 
-        User currentUser= User.getCurrentUser();
-        model.addAttribute("currentUser", currentUser);
         model.addAttribute("title", "EZList");
         model.addAttribute("user", user);
-        model.addAttribute("users", userRepository.findAll());
 
         return "user/edit";
     }
@@ -65,15 +70,12 @@ public class UserController {
     public String processEditUser(@ModelAttribute @Valid User user, Errors errors, String username,
                                    String email, String password, String verifyPassword, int userId,
                                    Model model) {
-        User currentUser=User.getCurrentUser();
         if (errors.hasErrors()){
             model.addAttribute("title", "Edit User");
             Optional<User> optUser = userRepository.findById(userId);
             User existingUser = optUser.get();
             model.addAttribute("existingUserId", existingUser.getId());
             model.addAttribute("user", user);
-            model.addAttribute("users", userRepository.findAll());
-            model.addAttribute("currentUser", currentUser);
             return "user/edit";
         }
         if (!password.equals(verifyPassword)) {
@@ -83,8 +85,6 @@ public class UserController {
                 model.addAttribute("title", "Edit User");
                 model.addAttribute("verifyError", "Passwords do not match");
                 model.addAttribute("user", existingUser);
-                model.addAttribute("users", userRepository.findAll());
-                model.addAttribute("currentUser", currentUser);
                 return "user/edit";
             }
         }

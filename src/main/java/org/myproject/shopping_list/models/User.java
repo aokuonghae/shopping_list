@@ -54,16 +54,13 @@ public class User implements UserDetails{
         return true;
     }
 
-   private boolean enabled;
+    private boolean enabled;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return Arrays.asList(new SimpleGrantedAuthority("USER"));
     }
-
-
-
     public User(){};
 
     public User (String username, String password, String email){
