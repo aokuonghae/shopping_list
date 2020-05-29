@@ -34,7 +34,7 @@
     <form name="logoutForm" th:action="@{/logout}" method="post">
         <input class = "btn btn-outline-light" type="submit" value="Logout"/>
     </form>
-    <form name="userForm" th:action="@{/user}" method="get">
+    <form name="userForm" th:action="@{'/user/'+${user.id}+'/account'}" method="get">
         <input class = "btn btn-primary" type="submit" th:value="${user.username + '''s Account'}"/>
     </form>
 </section>
