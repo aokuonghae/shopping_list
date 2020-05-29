@@ -13,7 +13,7 @@
 <body>
 
 <section th:fragment="header" id="header">
-    <a id="site-title">
+    <a th:href="${'/user/'+user.id}"} id="site-title">
         <div class="logo-name">
             <img src="/images/EzList.png" alt="EzList logo" id="logo">
             <h1 id="logo-name"> EZList</h1>
@@ -30,7 +30,7 @@
     </form>
 </section>
 
-<section th:fragment="loggedin" class="user-section">
+<a th:href="${'/user/'+user.id}"></a><section th:fragment="loggedin" class="user-section">
     <form name="logoutForm" th:action="@{/logout}" method="post">
         <input class = "btn btn-outline-light" type="submit" value="Logout"/>
     </form>
