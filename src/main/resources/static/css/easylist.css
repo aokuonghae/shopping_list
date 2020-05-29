@@ -14,14 +14,13 @@ background-color: #264a48;
 	width:100%;
 	height:auto;
 	padding:1%;
-	margin: 10px 0px 0 80px;
-	font-family: 'Josefin Sans', sans-serif;
-    font-weight: 700px;
-    color: ivory;
 }
 
 #logo-name {
-    margin:0px;
+    margin: 10px 0px 0 80px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 700px;
+    color: ivory;
 }
 
 .error {
@@ -86,7 +85,7 @@ background-color: #264a48;
      font-family:sans-serif;
      font-size: 0.8em;
    }
-   .card-body{
+   .card-text{
    border-bottom: 1px solid white;
    }
 
