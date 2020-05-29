@@ -30,7 +30,7 @@
     </form>
 </section>
 
-<a th:href="${'/user/'+user.id}"></a><section th:fragment="loggedin" class="user-section">
+<section th:fragment="loggedin" class="user-section">
     <form name="logoutForm" th:action="@{/logout}" method="post">
         <input class = "btn btn-outline-light" type="submit" value="Logout"/>
     </form>
