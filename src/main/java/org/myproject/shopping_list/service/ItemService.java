@@ -1,15 +1,13 @@
 package org.myproject.shopping_list.service;
 
+import org.myproject.shopping_list.error.ItemNotFoundException;
 import org.myproject.shopping_list.models.GroceryList;
+import org.myproject.shopping_list.models.Item;
 import org.myproject.shopping_list.models.User;
 import org.myproject.shopping_list.repository.GroceryListRepository;
 import org.myproject.shopping_list.repository.ItemRepository;
-import org.myproject.shopping_list.models.Item;
-import org.myproject.shopping_list.error.ItemNotFoundException;
-
 import org.myproject.shopping_list.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,29 +21,26 @@ public class ItemService{
     private UserRepository userRepository;
 
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
 
     @Autowired
-    GroceryListRepository groceryListRepository;
+    private GroceryListRepository groceryListRepository;
 
-    public List<Item> getAllItems(){
-
-        List<Item> result= (List<Item>) itemRepository.findByOrderByNameAsc();
-        if (result.size()>0){
-            return result;
-        } else {
-            return new ArrayList<Item>();
+    public User getUserById(int userId){
+        Optional<User> optUser= userRepository.findById(userId);
+        return optUser.get();
+    }
+    public List<Item> getAllItemsByUser(User user){
+        List<Item> result= (List<Item>) itemRepository.findAll();
+        List<Item> ownerItems= new ArrayList<>();
+        for (Item item: result){
+            if (item.getUser()== user){
+                ownerItems.add(item);
+            }
         }
+        return ownerItems;
     }
 
-    public List<Item> getAllItemsByDate(){
-        List<Item> result=(List<Item>) itemRepository.findByOrderByLastBoughtDesc();
-        if (result.size() > 0) {
-            return result;
-        } else {
-            return new ArrayList<Item>();
-        }
-    }
 
     public Boolean itemCheck(Integer itemId, Integer groceryId){
         Item checkedItem= itemRepository.findById(itemId).get();
@@ -83,9 +78,8 @@ public class ItemService{
         }
     }
 
-    public Item createItem(Item itemEntity) {
+    public void createItem(Item itemEntity) {
         itemEntity = itemRepository.save(itemEntity);
-        return itemEntity;
     }
 
     public GroceryList createGroceryList(List<Integer> itemIds, GroceryList groceryEntity) {
@@ -123,19 +117,22 @@ public class ItemService{
         return newGroceryList;
     }
 
-    public Item editItem(Item itemEntity, Integer id) throws ItemNotFoundException{
-        Optional<Item> item = itemRepository.findById(id);
+    public void editItem(Item itemEntity, Integer id, List<Item> userItems) throws ItemNotFoundException{
         LocalDateTime lastBought= itemEntity.getLastBought();
-            if (item.isPresent()) {
-                Item newItem = item.get();
-                newItem.setItemType(itemEntity.getItemType());
-                newItem.setName(itemEntity.getName());
-                newItem.setLastBought(lastBought);
-                newItem = itemRepository.save(newItem);
-                return newItem;
-            } else {
-                throw new ItemNotFoundException("This ID does not exist.");
+        String displayTime=itemEntity.getStringLastBought();
+        for (Item item : userItems) {
+            if (item.getId() == id) {
+                item.setItemType(itemEntity.getItemType());
+                item.setName(itemEntity.getName());
+                if(lastBought == null){
+                    itemEntity.setStringLastBought("Not available");
+                } else {
+                    item.setLastBought(itemEntity.getLastBought());
+                    item.setStringLastBought(itemEntity.getStringLastBought());
+                }
+                item = itemRepository.save(item);
             }
+        }
     }
 
     public Item setItemTime(LocalDateTime time, Integer id) throws ItemNotFoundException{

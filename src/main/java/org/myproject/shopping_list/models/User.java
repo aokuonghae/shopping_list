@@ -16,12 +16,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class User implements UserDetails{
+public class User extends AbstractEntity implements UserDetails{
     public static Object passwordEncoder;
-    @Id
-    @GeneratedValue
-    private int id;
-
     @NotNull
     private String username;
     @NotNull
@@ -31,12 +27,10 @@ public class User implements UserDetails{
     @NotNull
     private String email;
 
-    @OneToMany
-    @JoinColumn(name="user_id")
+    @OneToMany(mappedBy = "user")
     private List<Item> userItems= new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name="user_id")
+    @OneToMany(mappedBy="groceryUser")
     private List<GroceryList> userGroceryLists= new ArrayList<>();
 
     @Override
@@ -81,24 +75,20 @@ public class User implements UserDetails{
         return encoder.matches(verifyPassword, password);
     }
 
-    public int getId() {
-        return id;
-    }
-
     public List<Item> getItems() {
         return userItems;
     }
 
-    public void setItems(List<Item> items) {
-        this.userItems = items;
+    public void addItem(Item item) {
+        this.userItems.add(item);
     }
 
     public List<GroceryList> getGroceryLists() {
         return userGroceryLists;
     }
 
-    public void setGroceryLists(List<GroceryList> groceryLists) {
-        this.userGroceryLists = groceryLists;
+    public void addGroceryList(GroceryList groceryLists) {
+        this.userGroceryLists.add(groceryLists);
     }
 
     public String getUsername() {
@@ -137,7 +127,7 @@ public class User implements UserDetails{
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

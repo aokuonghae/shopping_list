@@ -18,7 +18,7 @@ public class GroceryList extends AbstractEntity {
     private List<Item> items;
 
     @ManyToOne
-    private User user;
+    private User groceryUser;
 
     private LocalDateTime getDate=LastBought.getLastBought();
 
@@ -29,12 +29,12 @@ public class GroceryList extends AbstractEntity {
     }
 
     //getters and setters
-    public User getUser() {
-        return user;
+    public User getGroceryUser() {
+        return groceryUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setGroceryUser(User groceryUser) {
+        this.groceryUser = groceryUser;
     }
 
     public List<Item> getItems() {

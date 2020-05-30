@@ -32,7 +32,6 @@ public class UserController {
         int id = currentUser.getId();
         return "redirect:/user/" + id;
     }
-
     @GetMapping(value="/{id}")
     public String userDetails(@PathVariable int id, Model model){
         Optional<User> optUser= userRepository.findById(id);
@@ -110,7 +109,7 @@ public class UserController {
         if(currentUserId == id) {
             Optional<User> optUser = userRepository.findById(id);
             User user = optUser.get();
-            List<Item> items= itemService.getAllItems();
+            List<Item> items= itemService.getAllItemsByUser(user);
             List <GroceryList> groceryLists= itemService.getAllGroceryLists();
             for (Item item : items) {
                 if (item.getUser().getId() == id) {
@@ -118,7 +117,7 @@ public class UserController {
                 }
             }
             for (GroceryList groceryList: groceryLists){
-                if (groceryList.getUser().getId()==id){
+                if (groceryList.getGroceryUser().getId()==id){
                     itemService.deleteGroceryListById(groceryList.getId());
                 }
             }

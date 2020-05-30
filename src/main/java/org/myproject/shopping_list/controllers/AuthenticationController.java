@@ -55,7 +55,7 @@ public class AuthenticationController {
             model.addAttribute("title", "EZList");
             return "/index";
         }
-        return "/register";
+        return "redirect: /register";
     }
 
     @GetMapping("/register")

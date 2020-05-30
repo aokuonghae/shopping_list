@@ -10,7 +10,7 @@
         <div class="card-body">
             <div th:switch="${items.size()}" class="container my-5">
                 <p class="my-5">
-                    <a href="/items/create" class="btn btn-primary">
+                    <a th:href="'/items/'+${user.id}+'/create'" class="btn btn-primary">
                         <i class="fas fa-user-plus ml-2"> Add Item </i></a>
                 </p>
                 <h1 th:if="${success}">
@@ -38,7 +38,7 @@
                                 <td th:text="${item.itemType}"></td>
                                 <td th:text="${item.stringLastBought}"></td>
                                 <td>
-                                    <a th:href="@{/items/edit/{id}(id=${item.id})}" class="btn btn-primary">
+                                    <a th:href="@{'/items/'+${user.id}+'/edit/'+${item.id}}" class="btn btn-primary">
                                         <i class="fas fa-user-edit ml-2"></i>
                                     </a>
                                 </td>
