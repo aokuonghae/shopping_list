@@ -12,11 +12,11 @@
 
 <body>
 
-<section th:fragment="header">
-    <a id="site-title">
-        <div class="header">
-            <img src="/images/EzList.png" width="50" alt="EzList logo">
-            <h1> EasyList</h1>
+<section th:fragment="header" id="header">
+    <a th:href="${'/user/'+user.id}" id="site-title">
+        <div class="logo-name">
+            <img src="/images/EzList.png" alt="EzList logo" id="logo">
+            <h1 id="logo-name"> EZList</h1>
         </div>
     </a>
 </section>
@@ -27,6 +27,15 @@
     </form>
     <form name="registerForm" th:action="@{/register}" method="get">
         <input class="btn btn-outline-light" type="submit" value="Register">
+    </form>
+</section>
+
+<section th:fragment="loggedin" class="user-section">
+    <form name="logoutForm" th:action="@{/logout}" method="post">
+        <input class = "btn btn-outline-light" type="submit" value="Logout"/>
+    </form>
+    <form name="userForm" th:action="@{'/user/'+${user.id}+'/account'}" method="get">
+        <input class = "btn btn-primary" type="submit" th:value="${user.username + '''s Account'}"/>
     </form>
 </section>
 

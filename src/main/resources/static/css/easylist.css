@@ -1,6 +1,27 @@
 form {
     display: inline-block;
     }
+#logo {
+float: left;
+width: 60px;
+height: 60px;
+}
+
+#header {
+background-color: #264a48;
+}
+.logo-name {
+	width:100%;
+	height:auto;
+	padding:1%;
+}
+
+#logo-name {
+    margin: 10px 0px 0 80px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 700px;
+    color: ivory;
+}
 
 .error {
     color:red;
@@ -40,11 +61,38 @@ form {
     background-color: #193e4e;
     text-align: center;
     }
+/*USER INDEX*/
+#welcome-user{
+    text-align: center
+}
+.welcome-page{
+  margin: 0px 32%;
+  width:400px;
+  height:400px;
+  background-color:#fff;
+  display:grid;
+  grid-template-columns: 200px 200px;
+  grid-template-rows: 12em 12em;
+  grid-column-gap: 40%;
+  grid-row-gap: 20px;
+ }
+   .card-welcome{
+     background-color:#333;
+     color:#fff;
+     display:flex;
+     align-items:center;
+     justify-content:center;
+     font-family:sans-serif;
+     font-size: 0.8em;
+   }
+   .card-text{
+   border-bottom: 1px solid white;
+   }
 
-/* BASIC LOGIN ANIMATED BOOTSTRAP */
+/* BASIC LOGIN+REGISTER ANIMATED BOOTSTRAP */
 
 html {
-  background-color: #56baed;
+  background-color: #949494;
 }
 
 body {
@@ -120,7 +168,7 @@ h2.active {
 /* FORM TYPOGRAPHY*/
 
 input[type=button], input[type=submit], input[type=reset]  {
-  background-color: #56baed;
+  background-color: #ed6028;
   border: none;
   color: white;
   padding: 15px 80px;
@@ -130,7 +178,7 @@ input[type=button], input[type=submit], input[type=reset]  {
   text-transform: uppercase;
   font-size: 13px;
   -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-  box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
+  box-shadow: 0 5px 10px 0 rgba(121, 114, 114, 0.4);
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
   margin: 5px 20px 40px 20px;
@@ -142,7 +190,7 @@ input[type=button], input[type=submit], input[type=reset]  {
 }
 
 input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
-  background-color: #39ace7;
+  background-color: #29515d;
 }
 
 input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {

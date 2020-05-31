@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head th:replace="fragments :: header">
+<head th:replace="fragments :: head">
     <title>Confirmation</title>
 </head>
 <body>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<body>
+<header>
+    <div class="logo-name">
+        <img src="/images/EzList.png" alt="EzList logo" id="logo">
+        <h1 id="logo-name"> EZList</h1>
+    </div>
+</header>
 <center>
         <div th:switch="${message}">
             <h2 th:case="'true'">Congratulations. You have successfully activated your account</h2>
             <h2 th:case="'false'">The link is invalid or broken!</h2>
         </div>
 </center>
-</body>
-</html>
-
 </body>
 </html>

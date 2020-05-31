@@ -11,7 +11,4 @@ import java.util.List;
 
 
 public interface ItemRepository extends JpaRepository<Item, Integer> {
-        List<Item> findByOrderByNameAsc();
-        List<Item> findByOrderByLastBoughtDesc();
-
 }

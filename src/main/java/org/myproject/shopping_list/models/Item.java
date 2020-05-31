@@ -2,6 +2,7 @@ package org.myproject.shopping_list.models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,12 +22,30 @@ public class Item extends AbstractEntity{
     @ManyToMany(mappedBy="items")
     private List<GroceryList> groceryLists= new ArrayList<>();
 
+    @ManyToOne
+    private User user;
+
     private LocalDateTime lastBought;
 
     private String stringLastBought;
 
     public Item(){}
 
+    public void setGroceryLists(List<GroceryList> groceryLists) {
+        this.groceryLists = groceryLists;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setStringLastBought(String stringLastBought) {
+        this.stringLastBought = stringLastBought;
+    }
 
     public ItemType getItemType() {
         return itemType;

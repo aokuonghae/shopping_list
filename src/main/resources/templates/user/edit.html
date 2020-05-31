@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org/ ">
+<head th:replace="fragments :: head">
+</head>
+<body>
+
+<header th:replace="fragments :: header"></header>
+
+<div class="container body-content">
+    <section th:replace="fragments :: user"></section>
+
+    <form method="post" action="/user/edit" th:object="${user}" id="edit-user-form">
+        <div class="form-group">
+            <label th:for="username">Username</label>
+            <input class="form-control" type="text" th:field="*{username}" aria-describedby="usernameHelpBlock" rows="4"
+                   cols="5"/>
+            <small th:errors="*{username}" class="form-text text-muted text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label th:for="email">Email</label>
+            <input class="form-control" type="email" th:field="*{email}" aria-describedby="emailHelpBlock" rows="4"
+                   cols="5"/>
+            <small th:errors="*{email}" class="form-text text-muted text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label th:for="password">Password</label>
+            <input class="form-control" type="password" value="******" name="password"
+                   aria-describedby="passwordHelpBlock" rows="4" cols="5"/>
+            <small th:errors="*{password}" class="form-text text-muted text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label th:for="verifyPassword">Verify Password
+                <div th:if="${verifyError}">
+                    <small id="verifyPasswordHelpBlock" th:text="${verifyError}"
+                           class="form-text text-muted text-danger"></small>
+                </div>
+            </label>
+            <input class="form-control" type="password" name="verifyPassword" aria-describedby="verifyPasswordHelpBlock"
+                   rows="4" cols="5"/>
+        </div>
+        <input th:unless="${existingUserId}" type="hidden" th:value="*{id}" name="userId"/>
+        <input th:if="${existingUserId}" type="hidden" th:value="${existingUserId}" name="userId"/>
+        <div class="form-btn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="btn btn-danger" id="delete-button" onclick="confirmDelete()">Delete User</div>
+            <a href="delete" class="btn btn-warning" id="confirm-delete" style="display: none;">Confirm Delete?</a>
+        </div>
+    </form>
+
+
+</div>
+
+</body>
+</html>

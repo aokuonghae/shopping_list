@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+
+<section th:replace="fragments :: loggedin"></section>
+
+<h1 id="welcome-user" th:text="'Welcome, '+ ${user.username}"></h1>
+<div class="welcome-page" id="user-details">
+    <div class="card-welcome" style="width: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title">All Grocery Items</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="@{/items}" class="card-link"> View all Items</a>
+        </div>
+    </div>
+    <div class="card-welcome" style="width: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title">All Grocery Lists</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="card-link">View all Lists</a>
+        </div>
+    </div>
+    <div class="card-welcome" style="width: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title">Add a new grocery item</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="card-link">New Item</a>
+        </div>
+    </div>
+    <div class="card-welcome" style="width: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title">Add a new grocery list</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="card-link">New List</a>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+
+<section th:replace="fragments :: loggedin"></section>
+
+<div class="card text-center" id="user-details">
+    <div class="card-body">
+        <h2 th:text="${user.username + '''s Details'}" class="card-title"></h2>
+        <p th:text="${'Username: ' + user.username}" class="card-text"></p>
+        <p th:text="${'Email: ' + user.email}" class="card-text"></p>
+        <a th:href="${'/user/'+user.id + '/edit'}" class="btn btn-primary">Edit User</a>
+    </div>
+</div>
+
+</body>
+</html>

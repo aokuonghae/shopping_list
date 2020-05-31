@@ -9,7 +9,7 @@
 <div class="card">
     <div class="card-body">
         <div class="col-md-10">
-            <form action="#" th:action="@{create}" th:object="${item}" method="post">
+            <form action="/items/create"  th:object="${item}" method="post">
                 <div class="row">
                     <div class="form-group col-md-8">
                         <label for="name" class="col-form-label">Last Name</label>
@@ -32,7 +32,8 @@
                     <div class="col-md-6">
                         <input type="submit" class="btn btn-primary" value=" Submit ">
                     </div>
-                    <input type="hidden" id="id" th:field="*{id}">
+<!--                    <input type="hidden" id="id" th:field="*{id}">-->
+                    <input type="hidden" name="userId" id="id" th:value="${user.id}">
 
                 </div>
             </form>
