@@ -3,11 +3,11 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
-
-<div class="container body-content">
 <header th:replace="fragments :: header"></header>
+
+<div class="container my-2">
 <h1>Create New Grocery List</h1>
-    <form method="post" style="max-width:600px;">
+    <form action="/groceries/new" method="post" style="max-width:600px;">
     <div class="form-group">
         <label th:for="name">Name</label>
         <input class="form-control" th:field="${groceryList.name}" />
@@ -24,6 +24,7 @@
     </div>
 
     <input type="submit" value="Create New Grocery List" />
+        <input type="hidden" name="userId" id="id" th:value="${user.id}">
 </form>
 </div>
 

@@ -24,7 +24,7 @@
                                 <th>Item Name</th>
                                 <th>Item Type</th>
                                 <th>Edit Item</th>
-                                <th>Delete</th>
+                                <th>Remove </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,20 +33,20 @@
                                 <td th:text="${item.name}"></td>
                                 <td th:text="${item.itemType}"></td>
                                 <td>
-                                    <a th:href="@{/items/edit/{id}(id=${item.id})}" class="btn btn-primary">
+                                    <a th:href="@{'/items/'+${user.id}+'/edit/'+${item.id}}" class="btn btn-primary">
                                         <i class="fas fa-user-edit ml-2"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{'/groceries/delete/'+ ${list.id} + '/' + ${item.id}}" class="btn btn-danger">
+                                    <a th:href="@{'/groceries/'+${user.id}+'/delete/'+ ${list.id} + '/' + ${item.id}}" class="btn btn-danger">
                                         <i class="fas fa-user-times ml-2"></i>
                                     </a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        <a th:href="@{'/groceries/shopping/'+ ${list.id}}" class="btn btn-primary">Go Shopping</a>
-                        <a th:href="@{'/groceries/delete/' + ${list.id}}" class="btn btn-danger">Delete Grocery List</a>
+                        <a th:href="@{'/groceries/'+${user.id}+'/shopping/'+ ${list.id}}" class="btn btn-primary">Go Shopping</a>
+                        <a th:href="@{'/groceries/'+${user.id}+'delete/' + ${list.id}}" class="btn btn-danger">Delete Grocery List</a>
                     </div>
 
                 </div>

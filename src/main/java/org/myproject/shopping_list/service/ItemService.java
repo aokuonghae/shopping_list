@@ -43,10 +43,15 @@ public class ItemService{
         return ownerItems;
     }
 
-    public List<GroceryList> getAllGroceryLists(){
+    public List<GroceryList> getAllGroceryListsByUser(User user){
         List<GroceryList> result = (List<GroceryList>) groceryListRepository.findAll();
-
-        return result;
+        List<GroceryList> ownerLists= new ArrayList<>();
+        for (GroceryList grocery: result){
+            if (grocery.getGroceryUser()==user){
+                ownerLists.add(grocery);
+            }
+        }
+        return ownerLists;
     }
 
     public Item getItemById(Integer id) throws ItemNotFoundException {

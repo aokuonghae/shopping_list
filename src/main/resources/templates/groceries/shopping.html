@@ -3,24 +3,22 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
+<header th:replace="fragments :: header"></header>
 
-<div class="container body-content">
-    <header th:replace="fragments :: header"></header>
-
+<div class="container my-2">
     <h1 th:text="${list.name}"></h1>
     <p th:text="${date}" name="time"></p>
 
-    <form method="post" style="max-width:600px;">
+    <form method="post" th:action="@{/groceries/shopping/{groceryListId}(groceryListId=${list.id})}" style="max-width:600px;">
        <div class="form-group">
             <label th:for="item">Items</label>
             <li th:each="item : ${list.items}">
                 <input type="checkbox" name="bought" th:value="${item.id}">
                 <label th:text="${item.name}">item name </label>
             </li>
-
         </div>
-
         <input type="submit" value="Finish Shopping" />
+        <input type="hidden" name="userId" id="userId" th:value="${user.id}">
     </form>
 </div>
 

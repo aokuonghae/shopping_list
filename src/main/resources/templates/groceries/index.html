@@ -10,7 +10,7 @@
         <div class="card-body">
             <div th:switch="${lists.size()}" class="container my-5">
                 <p class="my-5">
-                    <a href="/groceries/new" class="btn btn-primary">
+                    <a th:href="'/groceries/'+${user.id}+'/new'" class="btn btn-primary">
                         <i class="fas fa-user-plus ml-2"> New Shopping List </i></a>
                 </p>
                 <div class="col-md-10">
@@ -29,7 +29,7 @@
                             <tr th:each="groceryList: ${lists}">
                                 <td th:text="${groceryList.id}"></td>
                                 <td>
-                                    <a th:href="@{'/groceries/view/'+ ${groceryList.id}}" th:text="${groceryList.name}"></a>
+                                    <a th:href="@{'/groceries/'+${user.id}+'/view/'+ ${groceryList.id}}" th:text="${groceryList.name}"></a>
                                 </td>
                                 <td>
                                     <a class="btn btn-primary">
@@ -37,7 +37,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{'/groceries/delete/'+ ${groceryList.id}}" class="btn btn-danger">
+                                    <a th:href="@{'/groceries/'+${user.id}+'/delete/'+ ${groceryList.id}}" class="btn btn-danger">
                                         <i class="fas fa-user-times ml-2"></i>
                                     </a>
                                 </td>

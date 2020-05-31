@@ -110,7 +110,7 @@ public class UserController {
             Optional<User> optUser = userRepository.findById(id);
             User user = optUser.get();
             List<Item> items= itemService.getAllItemsByUser(user);
-            List <GroceryList> groceryLists= itemService.getAllGroceryLists();
+            List <GroceryList> groceryLists= itemService.getAllGroceryListsByUser(user);
             for (Item item : items) {
                 if (item.getUser().getId() == id) {
                     itemService.deleteItemById(item.getId());
