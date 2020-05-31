@@ -44,12 +44,12 @@
                                 </td>
                                 <td>
 
-                                    <a th:href="@{/items/delete/{id}(id=${item.id})}" class="btn btn-danger">
+                                    <a th:href="@{'/items/'+${user.id}+'/delete/'+${item.id}}" class="btn btn-danger">
                                         <i class="fas fa-user-times ml-2"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{/items/add/{id}(id=${item.id})}" class="btn btn-primary">
+                                    <a th:href="@{'/items/'+${user.id}+'/add/'+${item.id}}" class="btn btn-primary">
                                         <i class="fas fa-folder-plus ml-2"></i>
                                     </a>
                                 </td>

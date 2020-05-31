@@ -30,6 +30,8 @@ public class ItemService{
         Optional<User> optUser= userRepository.findById(userId);
         return optUser.get();
     }
+
+    //GET FUNCTIONS
     public List<Item> getAllItemsByUser(User user){
         List<Item> result= (List<Item>) itemRepository.findAll();
         List<Item> ownerItems= new ArrayList<>();
@@ -41,24 +43,11 @@ public class ItemService{
         return ownerItems;
     }
 
-
-    public Boolean itemCheck(Integer itemId, Integer groceryId){
-        Item checkedItem= itemRepository.findById(itemId).get();
-        GroceryList groceryList= groceryListRepository.findById(groceryId).get();
-        List<Item> groceryItems= groceryList.getItems();
-        if (groceryItems.contains(checkedItem)){
-            return true;
-        }else {
-            return false;
-        }
-    }
-
     public List<GroceryList> getAllGroceryLists(){
         List<GroceryList> result = (List<GroceryList>) groceryListRepository.findAll();
 
         return result;
     }
-
 
     public Item getItemById(Integer id) throws ItemNotFoundException {
         Optional<Item> item= itemRepository.findById(id);
@@ -78,6 +67,8 @@ public class ItemService{
         }
     }
 
+
+    //CREATE FUNCTIONS
     public void createItem(Item itemEntity) {
         itemEntity = itemRepository.save(itemEntity);
     }
@@ -89,6 +80,7 @@ public class ItemService{
         return groceryEntity;
     }
 
+    //ADD TO GROCERY FUNCTIONS
     public GroceryList addItemToGroceryList(GroceryList groceryEntity, Integer itemId, List<Item> itemEntity)
         throws ItemNotFoundException {
 
@@ -117,36 +109,22 @@ public class ItemService{
         return newGroceryList;
     }
 
+    //EDIT FUNCTION
     public void editItem(Item itemEntity, Integer id, List<Item> userItems) throws ItemNotFoundException{
-        LocalDateTime lastBought= itemEntity.getLastBought();
-        String displayTime=itemEntity.getStringLastBought();
         for (Item item : userItems) {
             if (item.getId() == id) {
                 item.setItemType(itemEntity.getItemType());
                 item.setName(itemEntity.getName());
-                if(lastBought == null){
-                    itemEntity.setStringLastBought("Not available");
-                } else {
-                    item.setLastBought(itemEntity.getLastBought());
-                    item.setStringLastBought(itemEntity.getStringLastBought());
+                if(itemEntity.getLastBought() == null){
+                    item.setStringLastBought("Not available");
                 }
                 item = itemRepository.save(item);
             }
         }
     }
 
-    public Item setItemTime(LocalDateTime time, Integer id) throws ItemNotFoundException{
-        Optional<Item> item = itemRepository.findById(id);
-        if (item.isPresent()){
-            Item newItem=item.get();
-            newItem.setLastBought(time);
-            newItem= itemRepository.save(newItem);
-            return newItem;
-        }else {
-            throw new ItemNotFoundException("This ID does not exist");
-        }
-    }
 
+//DELETE FUNCTIONS
     public void deleteItemById(Integer id) throws ItemNotFoundException{
         Optional <Item> item = itemRepository.findById(id);
         Item actualItem= item.get();
@@ -181,6 +159,28 @@ public class ItemService{
             return myList;
         }else {
             throw new ItemNotFoundException("Grocery list did not include that item ID");
+        }
+    }
+
+    public Boolean itemCheck(Integer itemId, Integer groceryId){
+        Item checkedItem= itemRepository.findById(itemId).get();
+        GroceryList groceryList= groceryListRepository.findById(groceryId).get();
+        List<Item> groceryItems= groceryList.getItems();
+        if (groceryItems.contains(checkedItem)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    public Item setItemTime(LocalDateTime time, Integer id) throws ItemNotFoundException{
+        Optional<Item> item = itemRepository.findById(id);
+        if (item.isPresent()){
+            Item newItem=item.get();
+            newItem.setLastBought(time);
+            newItem= itemRepository.save(newItem);
+            return newItem;
+        }else {
+            throw new ItemNotFoundException("This ID does not exist");
         }
     }
 

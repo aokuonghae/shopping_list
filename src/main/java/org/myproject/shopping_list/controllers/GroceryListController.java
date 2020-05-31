@@ -36,18 +36,24 @@ public class GroceryListController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping(value = "")
+    public String currentUser(Model model){
 
-//    @GetMapping
-//    public String index(Model model) {
-//        User currentUser = User.getCurrentUser();
-//        int id = currentUser.getId();
-//        model.addAttribute("title", "My Lists");
-//        List<GroceryList> groceryList= itemService.getAllGroceryLists();
-//        model.addAttribute("lists", groceryList);
-//        model.addAttribute("user", id);
-//
-//        return "groceries/index";
-//    }
+        User currentUser = User.getCurrentUser();
+        int id = currentUser.getId();
+        return "redirect:/groceries/" + id;
+    }
+
+    @GetMapping(value="{userId}")
+    public String displayAllGroceryLists(Model model,@PathVariable int userId) {
+        User user=itemService.getUserById(userId);
+        model.addAttribute("user", user);
+        model.addAttribute("title", "My Lists");
+        List<GroceryList> groceryList= itemService.getAllGroceryLists();
+        model.addAttribute("lists", groceryList);
+
+        return "groceries/index";
+    }
 //
 //    @GetMapping("new")
 //    public String displayNewGroceryList(Model model){

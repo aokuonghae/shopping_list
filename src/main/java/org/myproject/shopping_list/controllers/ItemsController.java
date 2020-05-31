@@ -75,8 +75,9 @@ public class ItemsController {
     }
 
     @GetMapping(value="{userId}/edit/{id}")
-    public String displayCreateItemForm(Model model, @PathVariable("userId") int userId, @PathVariable("id") Optional<Integer> id)
-            throws ItemNotFoundException{
+    public String displayCreateItemForm(Model model, @PathVariable("userId") int userId,
+                                        @PathVariable("id") Optional<Integer> id)
+                                        throws ItemNotFoundException{
         User user= itemService.getUserById(userId);
         model.addAttribute("user", user);
         model.addAttribute("types", ItemType.values());
@@ -86,7 +87,8 @@ public class ItemsController {
 
     @RequestMapping(value="edit/{id}", method = RequestMethod.POST)
     public String processEditItemForm(Model model, Item item,
-                                      @PathVariable("id") int id, @RequestParam("userId") int userId) throws ItemNotFoundException{
+                                      @PathVariable("id") int id, @RequestParam("userId") int userId)
+                                        throws ItemNotFoundException{
         User user= itemService.getUserById(userId);
         List<Item> userItems=itemService.getAllItemsByUser(user);
         itemService.editItem(item, id, userItems);
@@ -121,10 +123,12 @@ public class ItemsController {
 //        return "redirect:/items";
 //    }
 //
-//    @RequestMapping(path="delete/{id}", method=RequestMethod.GET)
-//    public String displayDeleteItemById(Model model, @PathVariable("id") Integer id)
-//            throws ItemNotFoundException{
-//        itemService.deleteItemById(id);
-//        return "redirect:/items";
-//    }
+    @RequestMapping(path="/{userId}/delete/{id}", method=RequestMethod.GET)
+    public String displayDeleteItemById(Model model, @PathVariable("id") Integer id,
+                                        @PathVariable("userId") int userId)
+            throws ItemNotFoundException{
+        User user= itemService.getUserById(userId);
+        itemService.deleteItemById(id);
+        return "redirect:/items";
+    }
 }
