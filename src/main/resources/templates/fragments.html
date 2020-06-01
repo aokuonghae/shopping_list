@@ -3,11 +3,12 @@
 
 <head th:fragment="head">
     <meta charset="utf-8">
-    <title>EasyList</title>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link th:href="@{/css/easylist.css}" rel="stylesheet" />
     <title th:text="${title}">Easylist</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 </head>
 
 <body>
@@ -15,7 +16,7 @@
 <section th:fragment="header" id="header">
     <a th:href="${'/user/'+user.id}" id="site-title">
         <div class="logo-name">
-            <img src="/images/EzList.png" alt="EzList logo" id="logo">
+            <img src="/images/ezlogo.svg" alt="EzList logo" id="logo">
             <h1 id="logo-name"> EZList</h1>
         </div>
     </a>
