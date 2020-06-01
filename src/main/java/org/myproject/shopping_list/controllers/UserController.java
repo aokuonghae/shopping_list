@@ -68,28 +68,22 @@ public class UserController {
     @PostMapping(value="edit")
     public String processEditUser(@ModelAttribute @Valid User user, Errors errors, String username,
                                    String email, String password, String verifyPassword, int userId,
-                                   Model model) {
+                                   Model model) throws ItemNotFoundException {
+        User existingUser=itemService.getUserById(userId);
         if (errors.hasErrors()){
             model.addAttribute("title", "Edit User");
-            Optional<User> optUser = userRepository.findById(userId);
-            User existingUser = optUser.get();
             model.addAttribute("existingUserId", existingUser.getId());
             model.addAttribute("user", user);
             return "user/edit";
         }
         if (!password.equals(verifyPassword)) {
             if (!password.equals("******")) {
-                Optional<User> optUser = userRepository.findById(userId);
-                User existingUser = optUser.get();
                 model.addAttribute("title", "Edit User");
                 model.addAttribute("verifyError", "Passwords do not match");
                 model.addAttribute("user", existingUser);
                 return "user/edit";
             }
         }
-
-        Optional<User> optUser= userRepository.findById(userId);
-        User existingUser= optUser.get();
 
         existingUser.setUsername(username);
         existingUser.setEmail(email);

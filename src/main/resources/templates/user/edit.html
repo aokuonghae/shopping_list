@@ -4,12 +4,10 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
-
 <header th:replace="fragments :: header"></header>
+<section th:replace="fragments :: loggedin"></section>
 
-<div class="container body-content">
-    <section th:replace="fragments :: user"></section>
-
+<div class="container my-2">
     <form method="post" action="/user/edit" th:object="${user}" id="edit-user-form">
         <div class="form-group">
             <label th:for="username">Username</label>
@@ -24,20 +22,18 @@
             <small th:errors="*{email}" class="form-text text-muted text-danger"></small>
         </div>
         <div class="form-group">
-            <label th:for="password">Password</label>
-            <input class="form-control" type="password" value="******" name="password"
-                   aria-describedby="passwordHelpBlock" rows="4" cols="5"/>
+            <label th:for="password">New Password</label>
+            <input class="form-control" type="password" value="******" name="password"/>
             <small th:errors="*{password}" class="form-text text-muted text-danger"></small>
         </div>
         <div class="form-group">
-            <label th:for="verifyPassword">Verify Password
+            <label th:for="verifyPassword">Verify Password if new password
                 <div th:if="${verifyError}">
-                    <small id="verifyPasswordHelpBlock" th:text="${verifyError}"
+                    <small th:text="${verifyError}"
                            class="form-text text-muted text-danger"></small>
                 </div>
             </label>
-            <input class="form-control" type="password" name="verifyPassword" aria-describedby="verifyPasswordHelpBlock"
-                   rows="4" cols="5"/>
+            <input class="form-control" type="password" name="verifyPassword"/>
         </div>
         <input th:unless="${existingUserId}" type="hidden" th:value="*{id}" name="userId"/>
         <input th:if="${existingUserId}" type="hidden" th:value="${existingUserId}" name="userId"/>

@@ -82,11 +82,10 @@ public class ItemService{
         itemEntity = itemRepository.save(itemEntity);
     }
 
-    public GroceryList createGroceryList(List<Integer> itemIds, GroceryList groceryEntity) {
+    public void createGroceryList(List<Integer> itemIds, GroceryList groceryEntity) {
         List<Item> itemList= (List<Item>) itemRepository.findAllById(itemIds);
         groceryEntity.setItems(itemList);
         groceryEntity= groceryListRepository.save(groceryEntity);
-        return groceryEntity;
     }
 
     //ADD TO GROCERY FUNCTIONS
@@ -108,14 +107,13 @@ public class ItemService{
         }
     }
 
-    public GroceryList addSingleItemToGroceryList(Integer groceryId, Integer itemId){
+    public void addSingleItemToGroceryList(Integer groceryId, Integer itemId){
         Item itemToAdd= itemRepository.findById(itemId).get();
         GroceryList groceryList= groceryListRepository.findById(groceryId).get();
         List<Item> groceryItems= groceryList.getItems();
         groceryItems.add(itemToAdd);
         groceryList.setItems(groceryItems);
         GroceryList newGroceryList=groceryListRepository.save(groceryList);
-        return newGroceryList;
     }
 
     //EDIT FUNCTION
@@ -136,12 +134,11 @@ public class ItemService{
 //DELETE FUNCTIONS
     public void deleteItemById(Integer id) throws ItemNotFoundException{
         Optional <Item> item = itemRepository.findById(id);
-        Item actualItem= item.get();
         if (item.isPresent()){
+            Item actualItem= item.get();
             List<GroceryList> result = (List<GroceryList>) groceryListRepository.findAll();
-            for (int i=0; i<result.size(); i++){
-                GroceryList single = result.get(i);
-                List<Item> itemList= single.getItems();
+            for (GroceryList single : result) {
+                List<Item> itemList = single.getItems();
                 if (itemList.contains(actualItem)) {
                     deleteItemFromGroceryById(single.getId(), id);
                 }
@@ -156,16 +153,15 @@ public class ItemService{
         groceryListRepository.deleteById(id);
     }
 
-    public GroceryList deleteItemFromGroceryById(Integer groceryId, Integer id) throws ItemNotFoundException{
+    public void deleteItemFromGroceryById(Integer groceryId, Integer id) throws ItemNotFoundException{
         Item actualItem = itemRepository.findById(id).get();
         GroceryList myList = groceryListRepository.findById(groceryId).get();
-        List previousItems= myList.getItems();
+        List<Item> previousItems= myList.getItems();
         if (previousItems.contains(actualItem)){
             previousItems.remove(actualItem);
             myList.setItems(previousItems);
 
             myList=groceryListRepository.save(myList);
-            return myList;
         }else {
             throw new ItemNotFoundException("Grocery list did not include that item ID");
         }
@@ -174,27 +170,22 @@ public class ItemService{
     public Boolean itemCheck(Integer itemId, Integer groceryId) throws ItemNotFoundException{
         Optional<Item> item= itemRepository.findById(itemId);
         Optional<GroceryList> list= groceryListRepository.findById(groceryId);
-        if(item.isPresent() || list.isPresent()){
+        if(item.isPresent() && list.isPresent()){
             Item checkedItem= item.get();
             GroceryList groceryList= list.get();
             List<Item> groceryItems= groceryList.getItems();
-            if (groceryItems.contains(checkedItem)){
-                return true;
-            }else {
-                return false;
-            }
+            return groceryItems.contains(checkedItem);
         } else {
             throw new ItemNotFoundException("Id not found");
         }
 
     }
-    public Item setItemTime(LocalDateTime time, Integer id) throws ItemNotFoundException{
+    public void setItemTime(LocalDateTime time, Integer id) throws ItemNotFoundException{
         Optional<Item> item = itemRepository.findById(id);
         if (item.isPresent()){
             Item newItem=item.get();
             newItem.setLastBought(time);
             newItem= itemRepository.save(newItem);
-            return newItem;
         }else {
             throw new ItemNotFoundException("This ID does not exist");
         }

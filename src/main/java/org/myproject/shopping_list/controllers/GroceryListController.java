@@ -38,7 +38,7 @@ public class GroceryListController {
     }
 
     @GetMapping(value="{userId}")
-    public String displayAllGroceryLists(Model model,@PathVariable int userId) {
+    public String displayAllGroceryLists(Model model,@PathVariable int userId) throws ItemNotFoundException {
         User user=itemService.getUserById(userId);
         model.addAttribute("user", user);
         model.addAttribute("title", "My Lists");
@@ -49,7 +49,7 @@ public class GroceryListController {
     }
 
     @GetMapping("{userId}/new")
-    public String displayNewGroceryList(Model model, @PathVariable int userId){
+    public String displayNewGroceryList(Model model, @PathVariable int userId) throws ItemNotFoundException {
         User user=itemService.getUserById(userId);
         model.addAttribute("user", user);
         model.addAttribute("title", "New Grocery List");
@@ -60,7 +60,7 @@ public class GroceryListController {
     @RequestMapping(path="new", method = RequestMethod.POST)
     public String processNewGroceryListForm(@ModelAttribute @Valid GroceryList newGroceryList, Errors errors,
                                             Model model, @RequestParam(value="items", required=false) List<Integer> items,
-                                            @RequestParam(value="userId") int userId){
+                                            @RequestParam(value="userId") int userId) throws ItemNotFoundException {
         User user=itemService.getUserById(userId);
         model.addAttribute("user", user);
         if (errors.hasErrors()){

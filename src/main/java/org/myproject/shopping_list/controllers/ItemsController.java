@@ -34,7 +34,7 @@ public class ItemsController {
     }
 
     @GetMapping(value="{userId}")
-    public String displayAllItems(Model model, @PathVariable int userId){
+    public String displayAllItems(Model model, @PathVariable int userId) throws ItemNotFoundException {
         User user=itemService.getUserById(userId);
         model.addAttribute("user", user);
         List<Item> items= itemService.getAllItemsByUser(user);
@@ -44,7 +44,7 @@ public class ItemsController {
     }
 
     @GetMapping("{userId}/create")
-    public String displayCreateItemForm(Model model, @PathVariable int userId ){
+    public String displayCreateItemForm(Model model, @PathVariable int userId ) throws ItemNotFoundException {
         User user= itemService.getUserById(userId);
         model.addAttribute("user",user);
         model.addAttribute("item", new Item());
@@ -54,7 +54,7 @@ public class ItemsController {
 
     @RequestMapping(path="create", method=RequestMethod.POST)
     public String processCreateOrUpdateItemForm(@ModelAttribute @Valid Item item, Errors errors, Model model,
-                                                @RequestParam(value="userId")int userId){
+                                                @RequestParam(value="userId")int userId) throws ItemNotFoundException {
         if (errors.hasErrors()) {
             model.addAttribute("types", ItemType.values());
             return "items/create";
