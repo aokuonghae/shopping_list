@@ -24,6 +24,7 @@ public class ItemsController {
     private ItemService itemService;
     @Autowired
     private UserRepository userRepository;
+
     @GetMapping(value = "")
     public String currentUser(Model model){
 
@@ -94,35 +95,40 @@ public class ItemsController {
         itemService.editItem(item, id, userItems);
         return "redirect:/items";
     }
-//
-//    @GetMapping(path="add/{itemId}")
-//    public String displayAddItemById (Model model, @PathVariable Optional<Integer> itemId,
-//                                      @PathVariable(required=false) Integer groceryListIds)
-//            throws ItemNotFoundException {
-//        List<GroceryList> allGroceries= itemService.getAllGroceryLists();
-//        model.addAttribute("item", itemService.getItemById(itemId.get()));
-//        model.addAttribute("allGroceries", allGroceries);
-//
-//        return "/items/add";
-//    }
-//
-//    @RequestMapping(path="add/{itemId}", method=RequestMethod.POST)
-//    public String processAddItemById(Model model, @PathVariable Integer itemId,
-//                                     @RequestParam("groceryListIds") List<Integer> groceryListIds) throws ItemNotFoundException {
-//            for (int i=0; i<groceryListIds.size(); i++){
-//                if (itemService.itemCheck(itemId,groceryListIds.get(i)) == true){
-//                    List<GroceryList> allGroceries= itemService.getAllGroceryLists();
-//                    model.addAttribute("item", itemService.getItemById(itemId));
-//                    model.addAttribute("allGroceries", allGroceries);
-//                    model.addAttribute("errorMsg", "This item already exists in a list");
-//                    return "items/add";
-//                } else {
-//                    itemService.addSingleItemToGroceryList(groceryListIds.get(i), itemId);
-//                }
-//            }
-//        return "redirect:/items";
-//    }
-//
+
+    @GetMapping(path="{userId}/add/{itemId}")
+    public String displayAddItemById (Model model, @PathVariable Optional<Integer> itemId,
+                                      @PathVariable(required=false) Integer groceryListIds, @PathVariable int userId)
+            throws ItemNotFoundException {
+        User user= itemService.getUserById(userId);
+        List<GroceryList> allGroceries= itemService.getAllGroceryListsByUser(user);
+        model.addAttribute("item", itemService.getItemById(itemId.get()));
+        model.addAttribute("allGroceries", allGroceries);
+        model.addAttribute("user", user);
+
+        return "/items/add";
+    }
+
+    @RequestMapping(path="add/{itemId}", method=RequestMethod.POST)
+    public String processAddItemById(Model model, @PathVariable Integer itemId,
+                                     @RequestParam("groceryListIds") List<Integer> groceryListIds,
+                                     @RequestParam("userId") int userId) throws ItemNotFoundException {
+        User user=itemService.getUserById(userId);
+        model.addAttribute("user", user);
+            for (int i=0; i<groceryListIds.size(); i++){
+                if (itemService.itemCheck(itemId,groceryListIds.get(i)) == true){
+                    List<GroceryList> allGroceries= itemService.getAllGroceryListsByUser(user);
+                    model.addAttribute("item", itemService.getItemById(itemId));
+                    model.addAttribute("allGroceries", allGroceries);
+                    model.addAttribute("errorMsg", "This item already exists in a list");
+                    return "items/add";
+                } else {
+                    itemService.addSingleItemToGroceryList(groceryListIds.get(i), itemId);
+                }
+            }
+        return "redirect:/items";
+    }
+
     @RequestMapping(path="/{userId}/delete/{id}", method=RequestMethod.GET)
     public String displayDeleteItemById(Model model, @PathVariable("id") Integer id,
                                         @PathVariable("userId") int userId)

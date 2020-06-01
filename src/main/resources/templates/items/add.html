@@ -15,7 +15,7 @@
                     <div th:case="*">
                         <h3 th:text="'Add '+ ${item.name}+ ' to:'"> Choose grocery list</h3>
                         <div class="col-md-10">
-                            <form method="post" style="max-width:600px;">
+                            <form method="post" th:action="@{/items/add/{itemId}(itemId=${item.id})}" style="max-width:600px;">
                                 <div class="form-group">
                                     <li th:each="grocery : ${allGroceries}">
                                         <input type="checkbox" name="groceryListIds" th:value="${grocery.id}">
@@ -26,7 +26,8 @@
                                 </div>
 
                                 <input type="submit" value="Add to grocery List" />
-                                    </form>
+                                <input type="hidden" name="userId" id="userId" th:value="${user.id}">
+                            </form>
                         </div>
                     </div>
                 </div>

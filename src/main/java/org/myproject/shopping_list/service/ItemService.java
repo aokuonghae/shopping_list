@@ -26,9 +26,13 @@ public class ItemService{
     @Autowired
     private GroceryListRepository groceryListRepository;
 
-    public User getUserById(int userId){
+    public User getUserById(int userId) throws ItemNotFoundException{
         Optional<User> optUser= userRepository.findById(userId);
-        return optUser.get();
+        if (optUser.isPresent()){
+            return optUser.get();
+        } else {
+            throw new ItemNotFoundException("No item record exists for given id");
+        }
     }
 
     //GET FUNCTIONS
@@ -167,15 +171,22 @@ public class ItemService{
         }
     }
 
-    public Boolean itemCheck(Integer itemId, Integer groceryId){
-        Item checkedItem= itemRepository.findById(itemId).get();
-        GroceryList groceryList= groceryListRepository.findById(groceryId).get();
-        List<Item> groceryItems= groceryList.getItems();
-        if (groceryItems.contains(checkedItem)){
-            return true;
-        }else {
-            return false;
+    public Boolean itemCheck(Integer itemId, Integer groceryId) throws ItemNotFoundException{
+        Optional<Item> item= itemRepository.findById(itemId);
+        Optional<GroceryList> list= groceryListRepository.findById(groceryId);
+        if(item.isPresent() || list.isPresent()){
+            Item checkedItem= item.get();
+            GroceryList groceryList= list.get();
+            List<Item> groceryItems= groceryList.getItems();
+            if (groceryItems.contains(checkedItem)){
+                return true;
+            }else {
+                return false;
+            }
+        } else {
+            throw new ItemNotFoundException("Id not found");
         }
+
     }
     public Item setItemTime(LocalDateTime time, Integer id) throws ItemNotFoundException{
         Optional<Item> item = itemRepository.findById(id);
