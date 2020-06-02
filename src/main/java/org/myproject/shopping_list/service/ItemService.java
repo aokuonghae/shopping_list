@@ -1,9 +1,11 @@
 package org.myproject.shopping_list.service;
 
 import org.myproject.shopping_list.error.ItemNotFoundException;
+import org.myproject.shopping_list.models.ConfirmationToken;
 import org.myproject.shopping_list.models.GroceryList;
 import org.myproject.shopping_list.models.Item;
 import org.myproject.shopping_list.models.User;
+import org.myproject.shopping_list.repository.ConfirmationTokenRepository;
 import org.myproject.shopping_list.repository.GroceryListRepository;
 import org.myproject.shopping_list.repository.ItemRepository;
 import org.myproject.shopping_list.repository.UserRepository;
@@ -25,6 +27,9 @@ public class ItemService{
 
     @Autowired
     private GroceryListRepository groceryListRepository;
+    @Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
+
 
     public User getUserById(int userId) throws ItemNotFoundException{
         Optional<User> optUser= userRepository.findById(userId);
@@ -57,6 +62,18 @@ public class ItemService{
         }
         return ownerLists;
     }
+    public List<ConfirmationToken> getConfirmationTokenByUserId(int userId){
+        List<ConfirmationToken> tokens=(List<ConfirmationToken>)confirmationTokenRepository.findAll();
+        List<ConfirmationToken> userToken = new ArrayList<>();
+        for (ConfirmationToken token : tokens) {
+            User user = token.getUser();
+            if (user.getId() == userId) {
+                userToken.add(token);
+            }
+        }
+        return userToken;
+    }
+
 
     public Item getItemById(Integer id) throws ItemNotFoundException {
         Optional<Item> item= itemRepository.findById(id);

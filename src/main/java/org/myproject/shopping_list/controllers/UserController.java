@@ -1,9 +1,11 @@
 package org.myproject.shopping_list.controllers;
 
 import org.myproject.shopping_list.error.ItemNotFoundException;
+import org.myproject.shopping_list.models.ConfirmationToken;
 import org.myproject.shopping_list.models.GroceryList;
 import org.myproject.shopping_list.models.Item;
 import org.myproject.shopping_list.models.User;
+import org.myproject.shopping_list.repository.ConfirmationTokenRepository;
 import org.myproject.shopping_list.repository.UserRepository;
 import org.myproject.shopping_list.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    ConfirmationTokenRepository confirmationTokenRepository;
 
     @GetMapping(value = "")
     public String currentUser(Model model){
@@ -33,10 +37,8 @@ public class UserController {
         return "redirect:/user/" + id;
     }
     @GetMapping(value="/{id}")
-    public String userDetails(@PathVariable int id, Model model){
-        Optional<User> optUser= userRepository.findById(id);
-        User user= optUser.get();
-
+    public String userDetails(@PathVariable int id, Model model) throws ItemNotFoundException {
+        User user=itemService.getUserById(id);
         model.addAttribute("title", "EZList");
         model.addAttribute("user", user);
         model.addAttribute("items", user.getItems());
@@ -45,9 +47,8 @@ public class UserController {
     }
 
     @GetMapping(value="/{id}/account")
-    public String viewAccount(@PathVariable int id, Model model){
-        Optional<User> optUser= userRepository.findById(id);
-        User user= optUser.get();
+    public String viewAccount(@PathVariable int id, Model model) throws ItemNotFoundException {
+        User user= itemService.getUserById(id);
         model.addAttribute("title", "EZList");
         model.addAttribute("user", user);
 
@@ -101,8 +102,7 @@ public class UserController {
         int currentUserId = currentUser.getId();
 
         if(currentUserId == id) {
-            Optional<User> optUser = userRepository.findById(id);
-            User user = optUser.get();
+            User user=itemService.getUserById(id);
             List<Item> items= itemService.getAllItemsByUser(user);
             List <GroceryList> groceryLists= itemService.getAllGroceryListsByUser(user);
             for (Item item : items) {
@@ -115,6 +115,8 @@ public class UserController {
                     itemService.deleteGroceryListById(groceryList.getId());
                 }
             }
+            List<ConfirmationToken> token=itemService.getConfirmationTokenByUserId(id);
+            confirmationTokenRepository.delete(token.get(0));
             userRepository.delete(user);
             SecurityContextHolder.clearContext();
         }
