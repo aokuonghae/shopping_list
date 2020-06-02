@@ -2,20 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body class="container">
+<header th:replace="fragments :: header"></header>
 
-<header>
-    <div class="logo-name">
-        <img src="/images/EzList.png" alt="EzList logo" id="logo">
-        <h1 id="logo-name"> EZList</h1>
-    </div>
-</header>
-
-<div class="container my-2">
-    <div class="card">
+<div>
+    <div >
         <div class="card-body">
             <div class="container my-5">
-                <div class="col-md-10">
-                    <span th:text="'A verification email has been sent to: ' + ${email}"></span>
+                <div class="confirm">
+                    <span th:text="'Congratulations! You have been successfully registered.<br> A verification email has been sent to: ' + ${email}.
+<br> Please Verify your account before logging in."></span>
+                    <form name="loginForm" th:action="@{/login}" method="get">
+                        <input class="btn btn-outline-light" type="submit" value="Login">
+                    </form>
                 </div>
             </div>
         </div>

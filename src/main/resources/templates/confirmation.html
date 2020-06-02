@@ -4,17 +4,26 @@
     <title>Confirmation</title>
 </head>
 <body>
-<header>
-    <div class="logo-name">
-        <img src="/images/EzList.png" alt="EzList logo" id="logo">
-        <h1 id="logo-name"> EZList</h1>
-    </div>
-</header>
-<center>
-        <div th:switch="${message}">
-            <h2 th:case="'true'">Congratulations. You have successfully activated your account</h2>
-            <h2 th:case="'false'">The link is invalid or broken!</h2>
+<header th:replace="fragments :: header"></header>
+<div class="">
+    <div>
+        <div>
+            <div class="container my-5">
+                <div class="confirm">
+                    <center>
+                        <div th:switch="${message}">
+                            <h2 style="color:#1e7e34;" th:case="'true'" >Congratulations. You have successfully activated your account.</h2>
+                            <h2 style="color:red;" th:case="'false'">The link is invalid or broken!</h2>
+                        </div>
+                        <form name="registerForm" th:action="@{/register}" method="get">
+                            <input class="btn btn-outline-light" type="submit" value="Register">
+                        </form>
+                    </center>
+                </div>
+            </div>
         </div>
-</center>
+    </div>
+</div>
+
 </body>
 </html>
