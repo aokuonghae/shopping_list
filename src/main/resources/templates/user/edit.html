@@ -5,7 +5,7 @@
 </head>
 <body>
 <header th:replace="fragments :: header"></header>
-<section th:replace="fragments :: loggedin"></section>
+<nav th:replace="fragments :: nav-bar"></nav>
 
 <div class="container my-2">
     <form method="post" action="/user/edit" th:object="${user}" id="edit-user-form">

@@ -1,27 +1,52 @@
 form {
     display: inline-block;
     }
+
+.override{
+    background-color: transparent;
+    }
+.user-account{
+    outline: none;
+    margin: 5px 20px 5px 10px
+}
+.my-2{
+margin-top: 3rem!important;}
+.mb-1{
+background-color:#ed6028;
+ }
+
 #logo {
 float: left;
-width: 60px;
-height: 60px;
+margin-top: 5px;
+width: 40px;
+height: 40px;
 }
 
-#header {
-background-color: #264a48;
-}
+#logoFront{
+width: 400px;
+height: 400px;}
+
 .logo-name {
 	width:100%;
 	height:auto;
 	padding:1%;
 }
-
+.h1{
+font-weight: 700px;
+margin-top: 1.5rem;
+}
 #logo-name {
-    margin: 10px 0px 0 80px;
+    margin: 10px 0px 5px 50px;
     font-family: 'Josefin Sans', sans-serif;
     font-weight: 700px;
     color: ivory;
+    font-size: 1.75rem;
 }
+
+#header {
+background-color: #264a48;
+}
+
 
 .error {
     color:red;
@@ -40,10 +65,12 @@ background-color: #264a48;
     font-variant: small-caps;
     font-weight: 700;
     line-height: 38.7px;
+    width: 450px;
     }
 #user-account {
     color: black;
 }
+
 #welcome-text, #title {
   color: white;
   }
@@ -61,6 +88,43 @@ background-color: #264a48;
     background-color: #193e4e;
     text-align: center;
     }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #ed6028;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .drop-button {
+    border-color: transparent;
+    }
+
+    .dropdown-content a:hover {background-color: #eee;}
+
+    .dropdown:hover .dropdown-content {display: block;}
+
+    .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+    .table-links{
+    color:black;
+    }
+
+
 /*USER INDEX*/
 #welcome-user{
     text-align: center
@@ -69,7 +133,6 @@ background-color: #264a48;
   margin: 0px 32%;
   width:400px;
   height:400px;
-  background-color:#fff;
   display:grid;
   grid-template-columns: 200px 200px;
   grid-template-rows: 12em 12em;
@@ -92,7 +155,7 @@ background-color: #264a48;
 /* BASIC LOGIN+REGISTER ANIMATED BOOTSTRAP */
 
 html {
-  background-color: #2b534a;
+  background-color: #eee;
 }
 
 body {
@@ -101,10 +164,10 @@ body {
 }
 
 a {
-  color: #92badd;
+  color: #e6f7ef;;
   display:inline-block;
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 h2 {
@@ -171,17 +234,19 @@ input[type=button], input[type=submit], input[type=reset]  {
   background-color: #ed6028;
   border: none;
   color: white;
-  padding: 15px 80px;
+  padding: 15px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   text-transform: uppercase;
   font-size: 13px;
+  width:150px;
+  height:50px;
   -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
   box-shadow: 0 5px 10px 0 rgba(121, 114, 114, 0.4);
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
-  margin: 5px 20px 40px 20px;
+  margin: 5px 20px 5px 10px;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
@@ -190,7 +255,7 @@ input[type=button], input[type=submit], input[type=reset]  {
 }
 
 input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
-  background-color: #29515d;
+  background-color:  #e7e7e7;
 }
 
 input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
@@ -231,11 +296,7 @@ input[type=text]:placeholder,input[type=password]:placeholder {
   color: #cccccc;
 }
 
-
-
 /* ANIMATIONS */
-
-/* Simple CSS3 Fade-in-down Animation */
 .fadeInDown {
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;
@@ -257,7 +318,6 @@ input[type=text]:placeholder,input[type=password]:placeholder {
     transform: none;
   }
 }
->>>>>>> authentication
 
 @keyframes fadeInDown {
   0% {

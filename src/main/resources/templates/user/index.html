@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head">
 </head>
-<body>
+<body class="override">
 <header th:replace="fragments :: header"></header>
-
-<section th:replace="fragments :: loggedin"></section>
+<nav th:replace="fragments :: nav-bar"></nav>
 
 <h1 id="welcome-user" th:text="'Welcome, '+ ${user.username}"></h1>
 <div class="welcome-page" id="user-details">

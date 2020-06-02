@@ -3,8 +3,9 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<section th:replace="fragments :: loggedin"></section>
+<nav th:replace="fragments :: nav-bar"></nav>
 
+<div class="container my-2">
 <h3> Add Item</h3>
 <div class="card">
     <div class="card-body">
@@ -12,7 +13,7 @@
             <form action="/items/create"  th:object="${item}" method="post">
                 <div class="row">
                     <div class="form-group col-md-8">
-                        <label for="name" class="col-form-label">Last Name</label>
+                        <label for="name" class="col-form-label">Item Name</label>
                         <input type="text" th:field="*{name}" class="form-control"
                                id="name" placeholder="Item Name" />
                         <p class="error" th:errors="${item.name}"></p>

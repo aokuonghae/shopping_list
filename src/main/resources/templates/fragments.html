@@ -5,19 +5,55 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
     <link th:href="@{/css/easylist.css}" rel="stylesheet"/>
     <title th:text="${title}">Easylist</title>
     <link rel="icon" sizes="32x32" href="images/favicon.ico">
 </head>
 
 <body>
+<nav th:fragment="nav-bar" class="mb-1 navbar navbar-expand-lg">
+    <div class="collapse navbar-collapse " id="navbarSupportedContent-333">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="${'/user/'+user.id}">Home
+                </a>
+
+            </li>
+            <li class="dropdown nav-item">
+                <button class="btn btn-outline-light drop-button">My Items</button>
+                <div class="dropdown-content">
+                    <a class="nav-link" th:href="@{/items}" >All Items</a>
+                    <a class="nav-link" th:href="@{'/items/'+${user.id}+'/create'}">New Item</a>
+                </div>
+            </li>
+            <li class="dropdown nav-item">
+                <button class="btn btn-outline-light drop-button">My Lists</button>
+                <div class="dropdown-content">
+                    <a class="nav-link" th:href="@{/groceries}" >All Lists</a>
+                    <a class="nav-link" th:href="@{'/groceries/'+${user.id}+'/new'}">New List</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item">
+                <form name="userForm" th:action="@{'/user/'+${user.id}+'/account'}" method="get">
+                    <button class="btn btn-outline-light fas fa-user user-account" type="submit" ></button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <form name="logoutForm" th:action="@{/logout}" method="get">
+                    <button class="btn btn-outline-light fas fa-sign-out-alt user-account" type="submit" ></button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
 <section th:fragment="header" id="header">
-    <a th:href="${'/user/'+user.id}" id="site-title">
         <div class="logo-name">
             <img src="/images/ezlogo.svg" alt="EzList logo" id="logo">
             <h1 id="logo-name"> EZList</h1>
         </div>
-    </a>
 </section>
 
 <section th:fragment="user" class="user-section">
@@ -34,7 +70,7 @@
         <input class = "btn btn-outline-light" type="submit" value="Logout"/>
     </form>
     <form name="userForm" th:action="@{'/user/'+${user.id}+'/account'}" method="get">
-        <input class = "btn btn-primary" type="submit" th:value="${user.username + '''s Account'}"/>
+        <input class = "btn btn-outline-light" type="submit" th:value="${user.username + '''s Account'}"/>
     </form>
 </section>
 

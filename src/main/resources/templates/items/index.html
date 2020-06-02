@@ -3,15 +3,16 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<section th:replace="fragments :: loggedin"></section>
+<nav th:replace="fragments :: nav-bar"></nav>
 
 <div class="container my-2">
     <div class="card">
         <div class="card-body">
             <div th:switch="${items.size()}" class="container my-5">
                 <p class="my-5">
-                    <a th:href="'/items/'+${user.id}+'/create'" class="btn btn-primary">
-                        <i class="fas fa-user-plus ml-2"> Add Item </i></a>
+                    <a class="table-links" th:href="'/items/'+${user.id}+'/create'">
+                        <button class="btn btn-primary fas fa-user-edit ml-2">Add item</button>
+                    </a>
                 </p>
                 <h1 th:if="${success}">
                     <p th:text="${success}"></p>
@@ -22,7 +23,6 @@
                         <table id="itemsTable" class="table table-striped table-responsive-md">
                             <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Item Name</th>
                                 <th>Item Type</th>
                                 <th>Last Bought</th>
@@ -33,24 +33,23 @@
                             </thead>
                             <tbody>
                             <tr th:each="item : ${items}">
-                                <td th:text="${item.id}"></td>
                                 <td th:text="${item.name}"></td>
-                                <td th:text="${item.itemType}"></td>
+                                <td th:text="${item.itemType.displayName}"></td>
                                 <td th:text="${item.stringLastBought}"></td>
                                 <td>
-                                    <a th:href="@{'/items/'+${user.id}+'/edit/'+${item.id}}" class="btn btn-primary">
-                                        <i class="fas fa-user-edit ml-2"></i>
+                                    <a th:href="@{'/items/'+${user.id}+'/edit/'+${item.id}}">
+                                        <button class="btn btn-primary fas fa-user-edit ml-2"></button>
                                     </a>
                                 </td>
                                 <td>
 
-                                    <a th:href="@{'/items/'+${user.id}+'/delete/'+${item.id}}" class="btn btn-danger">
-                                        <i class="fas fa-user-times ml-2"></i>
+                                    <a th:href="@{'/items/'+${user.id}+'/delete/'+${item.id}}">
+                                        <button class="btn btn-danger fas fa-user-times ml-2"></button>
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{'/items/'+${user.id}+'/add/'+${item.id}}" class="btn btn-primary">
-                                        <i class="fas fa-folder-plus ml-2"></i>
+                                    <a th:href="@{'/items/'+${user.id}+'/add/'+${item.id}}">
+                                        <button class="btn btn-primary fas fa-folder-plus ml-2"></button>
                                     </a>
                                 </td>
                             </tr>
