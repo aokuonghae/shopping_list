@@ -10,12 +10,14 @@ import org.myproject.shopping_list.repository.GroceryListRepository;
 import org.myproject.shopping_list.repository.ItemRepository;
 import org.myproject.shopping_list.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ItemService{
@@ -208,4 +210,18 @@ public class ItemService{
         }
     }
 
+    public ConfirmationToken generateNewConfirmationToken(final String token){
+        ConfirmationToken vToken= confirmationTokenRepository.findByConfirmationToken(token);
+        vToken.updateToken(UUID.randomUUID().toString());
+        vToken= confirmationTokenRepository.save(vToken);
+        return vToken;
+    }
+
+    public User getUserByToken(final String confirmationToken){
+        final ConfirmationToken token= confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        if (token!=null){
+            return token.getUser();
+        }
+        return null;
+    }
 }

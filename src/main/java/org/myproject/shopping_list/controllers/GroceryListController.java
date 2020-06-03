@@ -2,7 +2,7 @@ package org.myproject.shopping_list.controllers;
 
 import org.myproject.shopping_list.error.ItemNotFoundException;
 import org.myproject.shopping_list.models.GroceryList;
-import org.myproject.shopping_list.models.LastBought;
+import org.myproject.shopping_list.util.LastBought;
 import org.myproject.shopping_list.models.User;
 import org.myproject.shopping_list.repository.GroceryListRepository;
 import org.myproject.shopping_list.repository.ItemRepository;

@@ -1,4 +1,4 @@
-package org.myproject.shopping_list.models;
+package org.myproject.shopping_list.util;
 
 import org.apache.tomcat.jni.Local;
 import org.springframework.format.annotation.DateTimeFormat;

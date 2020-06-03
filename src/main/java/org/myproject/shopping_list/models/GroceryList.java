@@ -1,6 +1,8 @@
 package org.myproject.shopping_list.models;
 
 
+import org.myproject.shopping_list.util.LastBought;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -20,7 +22,7 @@ public class GroceryList extends AbstractEntity {
     @ManyToOne
     private User groceryUser;
 
-    private LocalDateTime getDate=LastBought.getLastBought();
+    private LocalDateTime getDate= LastBought.getLastBought();
 
     public GroceryList(){}
 

@@ -12,12 +12,26 @@
                 <div class="confirm">
                     <center>
                         <div th:switch="${message}">
-                            <h2 style="color:#1e7e34;" th:case="'true'" >Congratulations. You have successfully activated your account.</h2>
-                            <h2 style="color:red;" th:case="'false'">The link is invalid or broken!</h2>
+                            <span th:case="'true'"><h2 style="color:#1e7e34;" th:case="'true'" >Congratulations. You have successfully activated your account.</h2>
+                            <form name="registerForm" th:action="@{/login}" method="get">
+                            <input class="btn btn-outline-light" type="submit" value="Login">
+                            </form>
+                            </span>
+                            <span th:case="'false'">
+                                <h2 style="color:red;" th:case="'false'">The link does not exist.</h2>
+                            <form name="registerForm" th:action="@{/register}" method="get">
+                                <input class="btn btn-outline-light" type="submit" value="Register">
+                            </form>
+                            </span>
+                            <span th:case="'expired'">
+                                <h2 style="color:red;">The link has expired.</h2>
+                            <form th:action="@{/resendRegistrationToken}" method="get">
+                                <input class="btn btn-outline-light"  type="submit" value="Resend">
+                                <input type="hidden" name="token" th:value="${token}">
+                            </form>
+                            </span>
                         </div>
-                        <form name="registerForm" th:action="@{/register}" method="get">
-                            <input class="btn btn-outline-light" type="submit" value="Register">
-                        </form>
+
                     </center>
                 </div>
             </div>

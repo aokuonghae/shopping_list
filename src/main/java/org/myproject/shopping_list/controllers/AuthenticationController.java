@@ -7,6 +7,7 @@ import org.myproject.shopping_list.repository.UserRepository;
 import org.myproject.shopping_list.dto.LoginFormDTO;
 import org.myproject.shopping_list.dto.RegisterFormDTO;
 import org.myproject.shopping_list.service.EmailSenderService;
+import org.myproject.shopping_list.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Calendar;
 import java.util.Optional;
 
 @Controller
@@ -29,6 +31,8 @@ public class AuthenticationController {
     private ConfirmationTokenRepository confirmationTokenRepository;
     @Autowired
     private EmailSenderService emailSenderService;
+    @Autowired
+    private ItemService itemService;
 
     private static final String userSessionKey= "user";
 
@@ -107,7 +111,7 @@ public class AuthenticationController {
         SimpleMailMessage mailMessage= new SimpleMailMessage();
         mailMessage.setTo(newUser.getEmail());
         mailMessage.setSubject("Complete Registration");
-        mailMessage.setFrom("aokuonghae@gmail.com");
+        mailMessage.setFrom("aokuonghae1@gmail.com");
         mailMessage.setText("To confirm your account, please click here : "
                 +"http://localhost:8080/confirm-account?token="+ confirmationToken.getConfirmationToken());
         emailSenderService.sendEmail(mailMessage);
@@ -121,15 +125,25 @@ public class AuthenticationController {
 
     @GetMapping("/confirm-account")
     public String confirmUserAccount(Model model, @RequestParam("token") String confirmationToken){
-        ConfirmationToken token= confirmationTokenRepository.findByConfirmationToken(confirmationToken);
-        if (token !=null) {
-            User user= userRepository.findByEmail(token.getUser().getEmail());
+        ConfirmationToken verificationToken= confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        if (verificationToken==null){
+            model.addAttribute("message", "false");
+            return "/confirmation";
+        }
+        User user =  verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime()-cal.getTime().getTime()) <=0){
+            model.addAttribute("message","expired");
+            model.addAttribute("expired", true);
+            model.addAttribute("token", confirmationToken);
+            return "/confirmation";
+        }
+
+//            User user= userRepository.findByEmail(token.getUser().getEmail());
             user.setEnabled(true);
             userRepository.save(user);
             model.addAttribute("message", "true");
-        } else {
-            model.addAttribute("message","false");
-        }
+
         return "/confirmation";
     }
 
@@ -149,6 +163,12 @@ public class AuthenticationController {
             return "login";
         }
         User theUser= userRepository.findByUsername(loginFormDTO.getUsername());
+        Boolean confirmation=theUser.isEnabled();
+        if (confirmation==false){
+            model.addAttribute("title", "Log in");
+            model.addAttribute("confirmation", "Please verify your account");
+            return "login";
+        }
 
         if(theUser ==null){
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
@@ -170,6 +190,24 @@ public class AuthenticationController {
     public String logout (HttpServletRequest request){
         request.getSession().invalidate();
         return "redirect:/login";
+    }
+
+    @GetMapping("resendRegistrationToken")
+    public String resentRegistrationToken (HttpServletRequest request, @RequestParam("token") String existingToken, Model model){
+        ConfirmationToken newToken= itemService.generateNewConfirmationToken(existingToken);
+        User user= itemService.getUserByToken(newToken.getConfirmationToken());
+        SimpleMailMessage mailMessage= new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("New Confirmation Token");
+        mailMessage.setFrom("aokuonghae1@gmail.com");
+        mailMessage.setText("Here is your new confirmation token. To confirm your account, please click here : "
+                +"http://localhost:8080/confirm-account?token="+ newToken.getConfirmationToken());
+        emailSenderService.sendEmail(mailMessage);
+
+        model.addAttribute("email", user.getEmail());
+
+        return "successful_registration";
+
     }
 
 }
