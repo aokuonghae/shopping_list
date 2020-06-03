@@ -3,21 +3,19 @@
 <head th:replace="fragments :: head"></head>
 <body class="container">
 <header th:replace="fragments :: header"></header>
-
-<div>
-    <div >
         <div class="card-body">
             <div class="container my-5">
                 <div class="confirm">
-                    <span th:text="'A verification email has been sent to: '+${email}+'. Please Verify your account before logging in.'"></span>
-                    <form name="loginForm" th:action="@{/login}" method="get">
-                        <input class="btn btn-outline-light" type="submit" value="Login">
-                    </form>
+                    <div>
+                        <span th:text="'A verification email has been sent to: '+${email}+'. Please Verify your account before logging in.'"></span>
+                    </div>
+                    <div class="confirm">
+                        <form name="loginForm" th:action="@{/login}" method="get">
+                            <input class="btn btn-outline-light" type="submit" value="Login">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
 </body>
 </html>
